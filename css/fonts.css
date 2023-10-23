@@ -1,0 +1,29 @@
+@font-face {
+    font-family: Noto;
+    font-weight: normal;
+    src: url(../fonts/NotoSans/NotoSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: Noto;
+    font-weight: bold;
+    src: url(../fonts/NotoSans/NotoSans-Medium.ttf);
+}
+
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 100;
+    src: url(../fonts/Comfortaa/Comfortaa-Regular.ttf);
+}
+
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 400;
+    src: url(../fonts/Comfortaa/Comfortaa-Medium.ttf);
+}
+
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 600;
+    src: url(../fonts/Comfortaa/Comfortaa-Bold.ttf);
+}

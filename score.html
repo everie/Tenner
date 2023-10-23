@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="UTF-8">
+    <title>Tenner - Score</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/tenner.css" rel="stylesheet">
+    <link href="css/fonts.css" rel="stylesheet">
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/async.min.js"></script>
+</head>
+<body>
+
+<header data-bs-theme="dark">
+    <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4>Menu</h4>
+                    <div>
+                        <a class="Clickable" href="score.html">Scores</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4" style="display:flex; flex-direction: column; align-items: end;">
+                    <h4>Settings</h4>
+                    <div class="Clickable ResetGame" id="ResetGame" data-bs-toggle="collapse" data-bs-target="#navbarHeader">
+                        Reset
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <strong>Tenner</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main style="margin-top:2rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="HighScoreContainer" style="color:#999;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="js/EHelpers.min.js"></script>
+<script src="js/ESettings.min.js"></script>
+<script src="js/EScore.min.js"></script>
+
+</body>
+</html>

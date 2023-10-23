@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="UTF-8">
+    <title>Tenner</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/tenner.css" rel="stylesheet">
+    <link href="css/fonts.css" rel="stylesheet">
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/async.min.js"></script>
+</head>
+<body>
+
+<header data-bs-theme="dark">
+    <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4>Menu</h4>
+                    <div>
+                        <a class="Clickable" href="score.html">Scores</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4" style="display:flex; flex-direction: column; align-items: end;">
+                    <h4>Settings</h4>
+                    <div class="Clickable ResetGame" id="ResetGame" data-bs-toggle="collapse" data-bs-target="#navbarHeader">
+                        Reset
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <strong>Tenner</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main style="margin-top:2rem;">
+
+    <!--
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Album example</h1>
+                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+                <p>
+                    <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="Progress">
+                    <div id="GameProgress">
+                        <div id="GameScore">
+                            <span>Score:</span>
+                            <span id="Points">0</span>
+                        </div>
+                        <div id="GameMove">
+                            <span>Moves:</span>
+                            <span id="Moves">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div id="Game">
+                    <div id="GameContainer">
+                        <div id="InnerGame">
+                            <!-- GAME -->
+                        </div>
+                        <div id="InnerGameMessages">
+                            <!-- Messages -->
+                        </div>
+                        <div id="InnerGameOverlay">
+                            <!-- Overlay -->
+                            <div class="InnerGameOverlayMessage">
+                                <div style="font-weight: bold;">THE END</div>
+                                <div id="GamePositionContainer">Position: <span id="GamePosition">0</span></div>
+                                <div class="Clickable ResetGame">Reset</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div id="ProgressBottom">
+                    <div id="GameProgressBottom">
+                        <div id="GameOptions">
+                            <span>Options:</span>
+                            <span id="Options">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!--
+<footer class="text-body-secondary py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="#">Back to top</a>
+        </p>
+        <p class="mb-1">Bootstrap example</p>
+        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
+    </div>
+</footer>
+-->
+<script src="js/EHelpers.min.js"></script>
+<script src="js/ESettings.min.js"></script>
+<script src="js/ETen.min.js"></script>
+
+</body>
+</html>

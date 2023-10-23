@@ -280,7 +280,7 @@ function RemoveAllFriends(element) {
             //console.log('done merged', Score);
             Current.Selected = [];
 
-            UpdateScore(Score);
+            UpdateScore(Score, true);
             ShowScoreAnimation(element, Score, function() {
                //console.log('showed score.');
             });
@@ -326,7 +326,7 @@ function UpdateMergeStats(Num, Count) {
         };
 }
 
-function UpdateScore(Score = 0) {
+function UpdateScore(Score = 0, Animate = false) {
     let Points = document.querySelector('#Points');
     let Moves = document.querySelector('#Moves');
     let OldPoints = Current.Score;
@@ -337,9 +337,12 @@ function UpdateScore(Score = 0) {
         Current.Move++;
     }
 
-    ScoreCountUpAnimation(Points, OldPoints, Current.Score);
+    if (Animate) {
+        ScoreCountUpAnimation(Points, OldPoints, Current.Score);
+    } else {
+        Points.innerHTML = numberWithCommas(Current.Score);
+    }
 
-    //Points.innerHTML = numberWithCommas(Current.Score);
     Moves.innerHTML = numberWithCommas(Current.Move);
 }
 

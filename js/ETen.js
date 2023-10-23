@@ -331,7 +331,6 @@ function UpdateScore(Score = 0, Animate = false) {
     let Moves = document.querySelector('#Moves');
     let OldPoints = Current.Score;
 
-
     if (Score > 0) {
         Current.Score += Score;
         Current.Move++;

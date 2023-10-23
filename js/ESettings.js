@@ -23,7 +23,7 @@ const Current = {
     BlocksAsObj: function() {
         return this.Blocks.map(a => {
             return {
-                ID: a.dataset.id,
+                //ID: a.dataset.id,
                 X: parseInt(a.dataset.x),
                 Y: parseInt(a.dataset.y),
                 Num: parseInt(a.dataset.num),

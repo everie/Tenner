@@ -158,30 +158,6 @@ function StoreCurrentState() {
 }
 
 function LoadLastState() {
-    /*
-    let Game = localStorage.getItem('GAME');
-
-    try {
-        if (Game !== undefined && Game !== null) {
-            let Obj = JSON.parse(Game);
-
-            if (typeof Obj === 'object') {
-                Current.High = Obj.High;
-                Current.Move = Obj.Move;
-                Current.Score = Obj.Score;
-                Current.Merges = Obj.Merges;
-
-                return Obj.Blocks;
-            }
-        }
-    } catch (err) {
-        // do nothing
-    }
-
-    return null;
-
-     */
-
     let Game = GetLocalItem('GAME');
 
     if (Game !== null) {
@@ -226,9 +202,3 @@ function SaveLastStateOnEnd() {
         return 1;
     }
 }
-
-
-// let arr = [1, 1, 2];
-// let arr2 = [1, 1, 1, 2, 2, 3];
-// let arr3 = [1, 1, 1, 1, 2, 2, 2, 3, 3, 4];
-// let arr4 = [1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5];

@@ -329,13 +329,17 @@ function UpdateMergeStats(Num, Count) {
 function UpdateScore(Score = 0) {
     let Points = document.querySelector('#Points');
     let Moves = document.querySelector('#Moves');
+    let OldPoints = Current.Score;
+
 
     if (Score > 0) {
         Current.Score += Score;
         Current.Move++;
     }
 
-    Points.innerHTML = numberWithCommas(Current.Score);
+    ScoreCountUpAnimation(Points, OldPoints, Current.Score);
+
+    //Points.innerHTML = numberWithCommas(Current.Score);
     Moves.innerHTML = numberWithCommas(Current.Move);
 }
 
@@ -429,6 +433,33 @@ function FillEmptySquares(callback) {
         callback();
     });
 
+}
+
+function ScoreCountUpAnimation(Container, From, To) {
+    let Timer = 200;
+    let Steps = 8;
+
+    let Difference = To - From;
+    let PrStep = Difference / Steps;
+
+    ScoreCounter(Container, From, To, Steps, PrStep, Timer / Steps);
+}
+
+function ScoreCounter(Container, Value, ValueEnd, Step, StepAmount, Timer) {
+    console.log(Container, Value, ValueEnd, Step, StepAmount, Timer);
+
+    if (Step > 0) {
+        setTimeout(function() {
+            Value += StepAmount;
+            Step--;
+
+            Container.innerHTML = numberWithCommas(Value);
+
+            ScoreCounter(Container, Value, ValueEnd, Step, StepAmount, Timer);
+        }, Timer);
+    } else {
+        Container.innerHTML = numberWithCommas(ValueEnd);
+    }
 }
 
 function SinkNewBlockAnimation(Div, Block, Callback) {

@@ -35,6 +35,7 @@ function RandomByProbability(Options) {
 
 // https://stackoverflow.com/a/2901298
 function numberWithCommas(x) {
+    x = Math.round(x);
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
 }
 

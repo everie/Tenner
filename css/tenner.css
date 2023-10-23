@@ -2,6 +2,7 @@
 body {
     background-color:#111;
     font-family: Noto, serif;
+    font-weight: 200;
     overflow-x:hidden;
 }
 
@@ -18,6 +19,7 @@ footer {
 .Clickable {
     text-decoration: underline;
     cursor: pointer;
+    font-weight: 100;
 }
 
 #Progress {
@@ -128,6 +130,7 @@ footer {
     justify-content: space-between;
     font-size:1.2rem;
     padding:.5rem;
+    font-weight: 100;
 }
 
 #GameProgressBottom {
@@ -137,6 +140,7 @@ footer {
     justify-content: flex-end;
     font-size:1.2rem;
     padding:.5rem;
+    font-weight: 100;
 }
 
 .ScoreDisplay {
@@ -154,10 +158,6 @@ footer {
     text-shadow: 2px 2px 0 #000;
 }
 
-#Points {
-    font-weight:600;
-}
-
-#Moves {
-    font-weight:600;
+#Points, #Moves, #Options {
+    font-weight:400;
 }

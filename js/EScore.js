@@ -8,13 +8,17 @@ const ParamID = Params.get('id');
     if (ParamID !== undefined && ParamID !== null) {
         let State = First(Scores.filter(a => a.ID === ParamID));
 
-        let Row = document.createElement('div');
-        let Row2 = document.createElement('div');
+        if (State !== undefined && State !== null) {
+            let Row = document.createElement('div');
+            let Row2 = document.createElement('div');
 
-        Row.innerHTML = State.Score + ' -- ' + State.Move;
-        Row2.innerHTML = 'Started: ' + GetReadableTimestamp(State.Start) + ' Ended: ' + GetReadableTimestamp(State.End);
+            Row.innerHTML = State.Score + ' -- ' + State.Move;
+            Row2.innerHTML = 'Started: ' + GetReadableTimestamp(State.Start) + ' Ended: ' + GetReadableTimestamp(State.End);
 
-        Container.appendChild(Row).appendChild(Row2);
+            Container.appendChild(Row).appendChild(Row2);
+        } else {
+            Container.innerHTML = '<#Broken>';
+        }
     } else {
         Scores.forEach(a => {
             let Row = document.createElement('div');

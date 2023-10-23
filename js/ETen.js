@@ -446,8 +446,6 @@ function ScoreCountUpAnimation(Container, From, To) {
 }
 
 function ScoreCounter(Container, Value, ValueEnd, Step, StepAmount, Timer) {
-    console.log(Container, Value, ValueEnd, Step, StepAmount, Timer);
-
     if (Step > 0) {
         setTimeout(function() {
             Value += StepAmount;

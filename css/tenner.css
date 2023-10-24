@@ -4,10 +4,21 @@ body {
     font-family: Noto, serif;
     font-weight: 200;
     overflow-x:hidden;
+    padding-bottom: 1rem;
 }
 
 footer {
     background-color:#ccc;
+}
+
+main {
+    margin-top:2rem;
+    overflow-x: hidden;
+}
+
+.navbar.bg-dark, .text-bg-dark, .navbar-brand {
+    background-color:#161c20 !important;
+    color:#a7acae !important;
 }
 
 #Game {
@@ -16,10 +27,11 @@ footer {
     justify-content: center;
 }
 
-.Clickable {
+a, .Clickable {
     text-decoration: underline;
     cursor: pointer;
     font-weight: 100;
+    color:#5a91a3;
 }
 
 #Progress {
@@ -99,13 +111,15 @@ footer {
     border-width: 0;
     border-style:solid;
 
+    box-sizing: border-box;
+
     display:flex;
     justify-content: center;
     align-items: center;
 
     user-select:none;
 
-    transition: background-color 40ms;
+    transition: background-color 50ms;
 }
 
 .InnerSquare.Selected {
@@ -156,6 +170,7 @@ footer {
     align-items: center;
 
     text-shadow: 2px 2px 0 #000;
+    /*background-color: #f0f;*/
 }
 
 #Points, #Moves, #Options {

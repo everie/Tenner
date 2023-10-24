@@ -34,9 +34,13 @@ function RandomByProbability(Options) {
 }
 
 // https://stackoverflow.com/a/2901298
-function numberWithCommas(x) {
-    x = Math.round(x);
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+function FormatNumber(x, round = true) {
+    if (round)
+        x = Math.round(x);
+
+    return x.toLocaleString('da');
+    
+    //return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
 }
 
 function GetLocalItem(Name) {
@@ -89,7 +93,7 @@ function GetTimestamp() {
     return Date.now();
 }
 
-function GetReadableTimestamp(Time) {
+function GetReadableTimestamp(Time, Short = false) {
     if (Time === undefined || Time === null || Time.toString().length < 1)
         return '<#NoTime>';
 
@@ -99,13 +103,45 @@ function GetReadableTimestamp(Time) {
     let Month = D.getMonth();
     let Day = D.getDate();
 
+    let d = Pad(Day) + '-' + Pad(Month) + '-' + Year;
+
+    if (Short)
+        return d;
+
     let Hour = D.getHours();
     let Minute = D.getMinutes();
     let Second = D.getSeconds();
 
-    return Pad(Day) + '-' + Pad(Month) + '-' + Year + ' ' + Pad(Hour) + ':' + Pad(Minute) + ':' + Pad(Second);
+    return d + ' ' + Pad(Hour) + ':' + Pad(Minute) + ':' + Pad(Second);
 }
 
 function Pad(Number, N = 2) {
     return Number.toString().padStart(N, '0');
+}
+
+function SetStyle(Element, Style) {
+    Object.keys(Style).forEach(a => {
+        Element['style'][a] = Style[a];
+    });
+
+    return Element;
+}
+
+function GetSize(selector) {
+    const element = document.querySelector(selector);
+    const positionInfo = element.getBoundingClientRect();
+
+    return {
+        width: positionInfo.width,
+        height: positionInfo.height
+    };
+}
+
+function GetSize2(element) {
+    const positionInfo = element.getBoundingClientRect();
+
+    return {
+        width: positionInfo.width,
+        height: positionInfo.height
+    };
 }

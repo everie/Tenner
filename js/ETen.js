@@ -97,7 +97,7 @@ function CreateGameSquare(x, y, num) {
 
     div.innerHTML = num;
 
-    //div.style.borderColor = GetNumColour2(num);
+    div.style.borderColor = GetNumColour(num);
 
     overlay.className = 'InnerOverlay';
     //overlay.style.backgroundColor = GetNumColour(num);
@@ -139,7 +139,7 @@ function ReSize() {
     let Size = WindowHeight > WindowWidth ? WindowWidth : WindowHeight * 0.7;
 
     let AvailableSize = Size;
-    let MaxSize = 1000;
+    let MaxSize = 800;
     let GameSize = AvailableSize > MaxSize ? MaxSize : AvailableSize;
     Current.GameSize = GameSize;
     Current.FontSize = (GameSize / Defaults.Size) * 0.5;
@@ -154,25 +154,6 @@ function ReSize() {
     GameContainer.style.fontSize = Current.FontSize + 'px';
 
     ResizeSquares();
-}
-
-function GetSize(selector) {
-    const element = document.querySelector(selector);
-    const positionInfo = element.getBoundingClientRect();
-
-    return {
-        width: positionInfo.width,
-        height: positionInfo.height
-    };
-}
-
-function GetSize2(element) {
-    const positionInfo = element.getBoundingClientRect();
-
-    return {
-        width: positionInfo.width,
-        height: positionInfo.height
-    };
 }
 
 function SquareSize() {
@@ -195,8 +176,6 @@ function ResizeSquares() {
         S.style.left = ((ds.x - 1) * Square) + 'px';
         S.style.top = ((ds.y - 1) * Square) + 'px';
     });
-
-
 }
 
 function GetFriends(element, matching) {
@@ -339,10 +318,10 @@ function UpdateScore(Score = 0, Animate = false) {
     if (Animate) {
         ScoreCountUpAnimation(Points, OldPoints, Current.Score);
     } else {
-        Points.innerHTML = numberWithCommas(Current.Score);
+        Points.innerHTML = FormatNumber(Current.Score);
     }
 
-    Moves.innerHTML = numberWithCommas(Current.Move);
+    Moves.innerHTML = FormatNumber(Current.Move);
 }
 
 function CalculateOptions(Update = true) {
@@ -368,7 +347,7 @@ function CalculateOptions(Update = true) {
         EndGame(Update);
     }
 
-    Opts.innerHTML = numberWithCommas(Options);
+    Opts.innerHTML = FormatNumber(Options);
 }
 
 function EndGame(Update) {
@@ -453,12 +432,12 @@ function ScoreCounter(Container, Value, ValueEnd, Step, StepAmount, Timer) {
             Value += StepAmount;
             Step--;
 
-            Container.innerHTML = numberWithCommas(Value);
+            Container.innerHTML = FormatNumber(Value);
 
             ScoreCounter(Container, Value, ValueEnd, Step, StepAmount, Timer);
         }, Timer);
     } else {
-        Container.innerHTML = numberWithCommas(ValueEnd);
+        Container.innerHTML = FormatNumber(ValueEnd);
     }
 }
 
@@ -494,9 +473,9 @@ function ShowScoreAnimation(Block, Score, Callback) {
 
     let X = parseInt(Block.dataset.x) - 1;
     let Y = parseInt(Block.dataset.y) - 1;
-    let Top1 = ((Current.BlockSize * Y) - (Current.BlockSize / 2));
-    let Top2 = ((Current.BlockSize * Y) - (Current.BlockSize / 2)) - (Rise * 0.6);
-    let Top3 = ((Current.BlockSize * Y) - (Current.BlockSize / 2)) - Rise;
+    let Top1 = ((Current.BlockSize * Y));
+    let Top2 = ((Current.BlockSize * Y)) - (Rise * 0.6);
+    let Top3 = ((Current.BlockSize * Y)) - Rise;
 
     let F1 = Current.ScoreSize * 0.5;
     let F2 = Current.ScoreSize;
@@ -505,14 +484,14 @@ function ShowScoreAnimation(Block, Score, Callback) {
     let Div = document.createElement('div');
     Div.className = 'ScoreDisplay';
     Div.style.width = (Current.BlockSize * 2) + 'px';
-    Div.style.height = (Current.BlockSize * 2) + 'px';
+    Div.style.height = (Current.BlockSize) + 'px';
 
     Div.style.left = ((Current.BlockSize) * X - (Current.BlockSize / 2)) + 'px';
-    Div.style.top = ((Current.BlockSize) * Y - (Current.BlockSize / 2)) + 'px';
+    Div.style.top = Top1 + 'px';
 
     Div.style.fontSize = Current.ScoreSize + 'px';
 
-    Div.innerHTML = '+' + numberWithCommas(Score);
+    Div.innerHTML = '+' + FormatNumber(Score);
     Inner.appendChild(Div);
 
     let a1 = Div.animate([
@@ -579,15 +558,24 @@ function SelectDeselect(arr, on, callback) {
         if (on) {
             let a = arr.shift();
             a.Self.classList.add('Selected');
+
+            /*
+            if (a.Left === null) a.Self.style.borderLeftWidth = '1px';
+            if (a.Right === null) a.Self.style.borderRightWidth = '1px';
+            if (a.Over === null) a.Self.style.borderTopWidth = '1px';
+            if (a.Under === null) a.Self.style.borderBottomWidth = '1px';
+            */
         } else {
             let a = arr.pop();
+
+            a.Self.style.borderWidth = '0';
 
             a.Self.classList.remove('Selected');
         }
 
         setTimeout(function() {
             SelectDeselect(arr, on, callback);
-        }, 10);
+        }, 14);
     } else {
         callback();
     }
@@ -863,10 +851,25 @@ function CalcScore() {
 
     let Num = First.Num;
 
-    let Blocks = Count * Math.pow(Num, 2.1);
-    let Bonus = Math.pow(Count * 0.32, 1.24);
+    return CalculatePoints(Num, Count);
+}
 
-    return Math.round((Blocks * Bonus) + (Num * 1.25));
+function ScoreTable() {
+    for (let i = 1; i < 10; i++) {
+        let arr = [];
+        for (let j = 2; j < 20; j++) {
+            arr.push(CalculatePoints(i, j));
+        }
+
+        console.log(arr);
+    }
+}
+
+function CalculatePoints(Num, Count) {
+    let Blocks = Count * Math.pow((Num * 1.1) + 0.25, 1.8);
+    let Bonus = Math.pow(Count * 0.32, 1.25);
+
+    return Math.round((Blocks * Bonus) + (Num * 1.4));
 }
 
 function FindGaps(Empties) {

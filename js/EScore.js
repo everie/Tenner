@@ -2,19 +2,24 @@ const Params = new URLSearchParams(window.location.search);
 const ParamID = Params.get('id');
 
 (function () {
-    //let Scores = undefined;
-    let Scores = GetLocalItem('HIGH').Top;
     let Container = document.querySelector('#HighScoreContainer');
+    let H = GetLocalItem('HIGH');
 
-    if (ParamID !== undefined && ParamID !== null) {
-        let Score = First(Scores.filter(a => a.ID === ParamID));
-
-        ScoreSingle(Container, Score);
-
-        Populate(Score.Blocks);
-        ReSize();
+    if (H == null) {
+        Container.innerHTML = 'No scores registered yet. Go play!';
     } else {
-        ScoreList(Container, Scores);
+        let Scores = H.Top;
+
+        if (ParamID !== undefined && ParamID !== null) {
+            let Score = First(Scores.filter(a => a.ID === ParamID));
+
+            ScoreSingle(Container, Score);
+
+            Populate(Score.Blocks);
+            ReSize();
+        } else {
+            ScoreList(Container, Scores);
+        }
     }
 })();
 

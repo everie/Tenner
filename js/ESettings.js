@@ -22,12 +22,17 @@ const Current = {
     },
     BlocksAsObj: function() {
         return this.Blocks.map(a => {
-            return {
+            let Obj = {
                 //ID: a.dataset.id,
                 X: parseInt(a.dataset.x),
                 Y: parseInt(a.dataset.y),
-                Num: parseInt(a.dataset.num),
+                Num: parseInt(a.dataset.num)
             };
+
+            if (a.dataset.bonus)
+                Obj['B'] = a.dataset.bonus;
+
+            return Obj;
         })
     },
     Start: null
@@ -63,63 +68,78 @@ function GetNumColour2(num) {
     }
 }
 
+function GetNumColour3(num) {
+    switch (num) {
+        case 1: return '#c5ffb2';
+        case 2: return '#b2e0ff';
+        case 3: return '#ffd4b2';
+        case 4: return '#ffb2c4';
+        case 5: return '#e9baff';
+        case 6: return '#fdffcc';
+        case 7: return '#b9faff';
+        case 8: return '#ccffe3';
+        case 9: return '#ffc4d9';
+        case 10: return '#c7c8c9';
+    }
+}
+
 function SquareChoice() {
     switch (Current.High) {
         case 3:
             return RandomByProbability([
-                {Value: 1, Weight: 0.7},
-                {Value: 2, Weight: 0.3}
+                {Value: 1, Weight: 0.65},
+                {Value: 2, Weight: 0.35}
             ]);
 
         case 4:
             return RandomByProbability([
-                {Value: 1, Weight: 0.5},
+                {Value: 1, Weight: 0.45},
                 {Value: 2, Weight: 0.3},
-                {Value: 3, Weight: 0.2}
+                {Value: 3, Weight: 0.25}
             ]);
 
         case 5:
             return RandomByProbability([
-                {Value: 1, Weight: 0.5},
+                {Value: 1, Weight: 0.45},
                 {Value: 2, Weight: 0.25},
                 {Value: 3, Weight: 0.2},
-                {Value: 4, Weight: 0.05}
+                {Value: 4, Weight: 0.1}
             ]);
 
         case 6:
             return RandomByProbability([
-                {Value: 1, Weight: 0.5},
+                {Value: 1, Weight: 0.45},
                 {Value: 2, Weight: 0.3},
-                {Value: 3, Weight: 0.15},
+                {Value: 3, Weight: 0.2},
                 {Value: 4, Weight: 0.1},
                 {Value: 5, Weight: 0.05}
             ]);
 
         case 7:
             return RandomByProbability([
-                {Value: 1, Weight: 0.45},
+                {Value: 1, Weight: 0.4},
                 {Value: 2, Weight: 0.25},
-                {Value: 3, Weight: 0.15},
+                {Value: 3, Weight: 0.2},
                 {Value: 4, Weight: 0.1},
                 {Value: 5, Weight: 0.05}
             ]);
 
         case 8:
             return RandomByProbability([
-                {Value: 1, Weight: 0.45},
-                {Value: 2, Weight: 0.25},
-                {Value: 3, Weight: 0.15},
-                {Value: 4, Weight: 0.1},
-                {Value: 5, Weight: 0.075},
-                {Value: 6, Weight: 0.025}
+                {Value: 1, Weight: 0.35},
+                {Value: 2, Weight: 0.2},
+                {Value: 3, Weight: 0.175},
+                {Value: 4, Weight: 0.125},
+                {Value: 5, Weight: 0.1},
+                {Value: 6, Weight: 0.05}
             ]);
 
         case 9:
             return RandomByProbability([
-                {Value: 1, Weight: 0.35},
+                {Value: 1, Weight: 0.3},
                 {Value: 2, Weight: 0.275},
-                {Value: 3, Weight: 0.125},
-                {Value: 4, Weight: 0.1},
+                {Value: 3, Weight: 0.15},
+                {Value: 4, Weight: 0.125},
                 {Value: 5, Weight: 0.075},
                 {Value: 6, Weight: 0.05},
                 {Value: 7, Weight: 0.025}
@@ -127,14 +147,38 @@ function SquareChoice() {
 
         case 10:
             return RandomByProbability([
-                {Value: 1, Weight: 0.3},
+                {Value: 1, Weight: 0.25},
                 {Value: 2, Weight: 0.225},
-                {Value: 3, Weight: 0.175},
-                {Value: 4, Weight: 0.125},
+                {Value: 3, Weight: 0.2},
+                {Value: 4, Weight: 0.15},
                 {Value: 5, Weight: 0.1},
                 {Value: 6, Weight: 0.05},
                 {Value: 7, Weight: 0.025}
             ]);
+    }
+}
+
+function BonusChoice(Pct) {
+    if (Pct < 0.3) {
+        return RandomByProbability([
+            {Value: 1, Weight: 0.9},
+            {Value: 2, Weight: 0.1}
+        ]);
+    } else if (Pct >= 0.3 && Pct < 0.5) {
+        return RandomByProbability([
+            {Value: 1, Weight: 0.8},
+            {Value: 2, Weight: 0.2}
+        ]);
+    } else if (Pct >= 0.5 && Pct < 0.7) {
+        return RandomByProbability([
+            {Value: 2, Weight: 0.9},
+            {Value: 3, Weight: 0.1}
+        ]);
+    } else if (Pct >= 0.7) {
+        return RandomByProbability([
+            {Value: 2, Weight: 0.5},
+            {Value: 3, Weight: 0.5}
+        ]);
     }
 }
 

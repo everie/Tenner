@@ -65,7 +65,7 @@ function PopulateLoaded(LastBlocks) {
     const Inner = document.querySelector('#InnerGame');
 
     LastBlocks.forEach(function(Block) {
-        let div = CreateGameSquare(Block.X - 1, Block.Y - 1, Block.Num);
+        let div = CreateGameSquare(Block.X - 1, Block.Y - 1, Block.Num, Block.B);
 
         Current.Blocks.push(div);
         Inner.appendChild(div);
@@ -74,7 +74,7 @@ function PopulateLoaded(LastBlocks) {
     CalculateOptions(false);
 }
 
-function CreateGameSquare(x, y, num) {
+function CreateGameSquare(x, y, num, b = null) {
     const Size = SquareSize();
 
     let div = document.createElement('div');
@@ -95,32 +95,34 @@ function CreateGameSquare(x, y, num) {
     div.dataset.num = num;
     div.dataset.id = 'X' + X + 'Y' + Y;
 
-    div.innerHTML = num;
-
-    div.style.borderColor = GetNumColour(num);
+    SetBonusOverlay(div, b);
 
     overlay.className = 'InnerOverlay';
     //overlay.style.backgroundColor = GetNumColour(num);
     overlay.style.background = 'linear-gradient(0deg, ' + GetNumColour2(num) + ' 0%, ' + GetNumColour(num) + ' 100%)';
+    overlay.style.color = GetNumColour3(num);
+    overlay.innerHTML = num;
 
     div.appendChild(overlay);
 
-    div.onclick = function() {
-        if (!Current.Busy) {
-            if (Current.HasSelect()) {
-                if (Current.Selected.filter(a => a.ID === this.dataset.id).length > 0) {
-                    // REMOVE SELECTED
-                    RemoveAllFriends(this);
-                } else {
-                    // DESELECT - CLICKED OUTSIDE
-                    SelectDeselect(Current.Selected, false, function() {
-                        //console.log('done deselected');
-                    });
-                }
+    if (num < 10) {
+        div.onclick = function() {
+            if (!Current.Busy) {
+                if (Current.HasSelect()) {
+                    if (Current.Selected.filter(a => a.ID === this.dataset.id).length > 0) {
+                        // REMOVE SELECTED
+                        RemoveAllFriends(this);
+                    } else {
+                        // DESELECT - CLICKED OUTSIDE
+                        SelectDeselect(Current.Selected, false, function() {
+                            //console.log('done deselected');
+                        });
+                    }
 
-            } else {
-                // SELECT
-                GetAllFriends(this);
+                } else {
+                    // SELECT
+                    GetAllFriends(this);
+                }
             }
         }
     }
@@ -132,6 +134,7 @@ function ReSize() {
     const GameContainer = document.querySelector('#GameContainer');
     const GameProgress = document.querySelector('#GameProgress');
     const GameProgressBottom = document.querySelector('#GameProgressBottom');
+    const GameBonus = document.querySelector('.BonusOverlayText');
 
     const WindowHeight = window.innerHeight;
     const WindowWidth = GetSize('#Game').width;
@@ -242,6 +245,9 @@ function GetAllFriends(element) {
 
 function RemoveAllFriends(element) {
     Current.Busy = true;
+    let Bonus = (element.dataset.bonus ? parseInt(element.dataset.bonus) : 1);
+
+    ClearBonusBlock();
 
     let Friends = [];
     TraverseFriends(element, Friends);
@@ -250,8 +256,9 @@ function RemoveAllFriends(element) {
         Current.Empties = [];
 
         Current.Selected = Friends;
-        let Score = CalcScore();
-        UpdateMergeStats(element.dataset.num, Current.Selected.length);
+        let SelectedBlocks = Current.Selected.length;
+        let Score = CalcScore(Bonus);
+        UpdateMergeStats(element.dataset.num, SelectedBlocks);
 
         let Blocks = [Current.Selected[0], ...Shuffle(Current.Selected.slice(1))];
 
@@ -274,7 +281,8 @@ function RemoveAllFriends(element) {
                 FillGapsSynced(Stacks, function() {
                     FillEmptySquares(function() {
 
-                        CalculateOptions();
+                        let Groups = CalculateOptions();
+                        SetBonusBlock(Groups, SelectedBlocks);
                         StoreCurrentState();
 
                         //console.log('all dropped.');
@@ -285,6 +293,57 @@ function RemoveAllFriends(element) {
         });
     } else {
         Current.Selected = [];
+    }
+}
+
+function SetBonusBlock(Groups, Selected) {
+    let Pct = Selected / Math.pow(Defaults.Size, 2);
+    let Bonus = BonusChoice(Pct);
+
+    if (Bonus > 1) {
+        let G = Random(0, Groups.length - 1);
+        let B = Random(0, Groups[G].length - 1);
+
+        //let Group = Shuffle(Groups).pop();
+        //let Block = Shuffle(Group).shift();
+
+        let Block = Groups[G][B];
+
+        let BX = 'X' + Bonus;
+
+        SetBonusOverlay(Block.Self, Bonus);
+
+        Block.Self.dataset.bonus = Bonus;
+    }
+}
+
+function SetBonusOverlay(Element, Bonus) {
+    if (Bonus !== undefined && Bonus !== null) {
+        Element.dataset.bonus = Bonus;
+
+        let overlay = document.createElement('div')
+        let bonus = document.createElement('div');
+
+        overlay.className = 'BonusOverlay X' + Bonus;
+        bonus.className = 'BonusOverlayText X' + Bonus;
+
+        bonus.innerHTML = 'x' + Bonus;
+
+        Element.appendChild(bonus);
+        Element.appendChild(overlay);
+    }
+}
+
+function ClearBonusBlock() {
+    let Block = document.querySelector('.InnerSquare[data-bonus]');
+
+    if (Block !== undefined && Block !== null) {
+        delete Block.dataset.bonus;
+
+        let Overlays = document.querySelectorAll('.BonusOverlay, .BonusOverlayText');
+        Overlays.forEach(a => {
+            a.remove();
+        })
     }
 }
 
@@ -326,6 +385,7 @@ function UpdateScore(Score = 0, Animate = false) {
 
 function CalculateOptions(Update = true) {
     let Seen = [];
+    let Groups = [];
     let Options = 0;
 
     Current.Blocks.forEach(function(Block) {
@@ -336,6 +396,7 @@ function CalculateOptions(Update = true) {
             if (Friends.length > 1) {
                 Options++;
                 Seen.push(...Friends);
+                Groups.push(Friends);
             }
         }
     });
@@ -348,6 +409,8 @@ function CalculateOptions(Update = true) {
     }
 
     Opts.innerHTML = FormatNumber(Options);
+
+    return Groups;
 }
 
 function EndGame(Update) {
@@ -834,14 +897,7 @@ function SinkBlockAnimation(Block, Callback) {
     }
 }
 
-function Shuffle(arr) {
-    return arr
-        .map(value => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
-}
-
-function CalcScore() {
+function CalcScore(Bonus) {
     let P = [...Current.Selected];
     let Count = P.length;
     let First = (Count > 0 ? P[0] : null);
@@ -851,7 +907,7 @@ function CalcScore() {
 
     let Num = First.Num;
 
-    return CalculatePoints(Num, Count);
+    return CalculatePoints(Num, Count, Bonus);
 }
 
 function ScoreTable() {
@@ -865,11 +921,13 @@ function ScoreTable() {
     }
 }
 
-function CalculatePoints(Num, Count) {
+function CalculatePoints(Num, Count, Bonus) {
     let Blocks = Count * Math.pow((Num * 1.1) + 0.25, 1.8);
-    let Bonus = Math.pow(Count * 0.32, 1.25);
+    let Multiplier = Math.pow(Count * 0.32, 1.25);
 
-    return Math.round((Blocks * Bonus) + (Num * 1.4));
+    let Total = Math.round(Blocks * Multiplier + (Num * 1.4));
+
+    return Total * Bonus;
 }
 
 function FindGaps(Empties) {

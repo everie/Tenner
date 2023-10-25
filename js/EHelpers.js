@@ -17,6 +17,13 @@ function ObjAsArray(obj) {
     return Arr;
 }
 
+// https://stackoverflow.com/a/1527820
+function Random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // https://stackoverflow.com/a/28933315
 function RandomByProbability(Options) {
     let num = Math.random(),
@@ -144,4 +151,11 @@ function GetSize2(element) {
         width: positionInfo.width,
         height: positionInfo.height
     };
+}
+
+function Shuffle(arr) {
+    return arr
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
 }

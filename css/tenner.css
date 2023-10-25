@@ -119,11 +119,11 @@ a, .Clickable {
 
     user-select:none;
 
-    transition: background-color 50ms;
+    transition: background-color 60ms;
 }
 
 .InnerSquare.Selected {
-    background-color:#555;
+    background-color:#595959;
     font-weight: 400;
     color:#fff;
 }
@@ -156,16 +156,9 @@ a, .Clickable {
     height:100%;
     opacity: 0.3;
     animation: FadeIn 1s forwards, PulseX2 3s infinite;
-
-    font-size:1rem;
-    color:#fff;
-
-    display:flex;
-    justify-content: flex-start;
-    align-items: flex-end;
 }
 
-.InnerSquare .BonusOverlay.X3 {
+.InnerSquare .BonusOverlay.X3, .InnerSquare .BonusOverlay.X4 {
     background:linear-gradient(0deg, #f90 0%, #ff0 100%);
     animation: FadeIn 1s forwards, PulseX3 3s infinite;
 }
@@ -184,9 +177,9 @@ a, .Clickable {
 
     display:flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: flex-start;
 
-    padding:.3rem;
+    padding:2% 5%;
 
     font-weight:200;
     opacity:0;
@@ -235,7 +228,7 @@ a, .Clickable {
 
 @keyframes PulseX2 {
     0% {
-        opacity: .1;
+        opacity: .0;
     }
 
     50% {
@@ -243,13 +236,13 @@ a, .Clickable {
     }
 
     100% {
-        opacity: .1;
+        opacity: .0;
     }
 }
 
 @keyframes PulseX3 {
     0% {
-        opacity: .1;
+        opacity: .0;
     }
 
     50% {
@@ -257,7 +250,7 @@ a, .Clickable {
     }
 
     100% {
-        opacity: .1;
+        opacity: .0;
     }
 }
 

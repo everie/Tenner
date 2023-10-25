@@ -166,18 +166,19 @@ function BonusChoice(Pct) {
         ]);
     } else if (Pct >= 0.3 && Pct < 0.5) {
         return RandomByProbability([
-            {Value: 1, Weight: 0.8},
-            {Value: 2, Weight: 0.2}
+            {Value: 1, Weight: 0.75},
+            {Value: 2, Weight: 0.25}
         ]);
     } else if (Pct >= 0.5 && Pct < 0.7) {
         return RandomByProbability([
-            {Value: 2, Weight: 0.9},
-            {Value: 3, Weight: 0.1}
+            {Value: 2, Weight: 0.8},
+            {Value: 3, Weight: 0.2}
         ]);
     } else if (Pct >= 0.7) {
         return RandomByProbability([
             {Value: 2, Weight: 0.5},
-            {Value: 3, Weight: 0.5}
+            {Value: 3, Weight: 0.4},
+            {Value: 4, Weight: 0.1}
         ]);
     }
 }

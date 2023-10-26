@@ -309,8 +309,6 @@ function SetBonusBlock(Groups, Selected) {
 
         let Block = Groups[G][B];
 
-        let BX = 'X' + Bonus;
-
         SetBonusOverlay(Block.Self, Bonus);
 
         Block.Self.dataset.bonus = Bonus;

@@ -146,7 +146,7 @@ a, .Clickable {
 }
 
 .InnerSquare .BonusOverlay {
-    background:linear-gradient(0deg, #ff0 0%, #fff 100%);
+    /*background:linear-gradient(0deg, rgba(255, 255, 0, 0) 0%, rgba(255, 255, 255, 0.3) 100%);*/
     z-index:3;
 
     position:absolute;
@@ -154,13 +154,20 @@ a, .Clickable {
     left:0;
     width:100%;
     height:100%;
-    opacity: 0.3;
-    animation: FadeIn 1s forwards, PulseX2 3s infinite;
+    animation: FadeIn .5s forwards;
+    border-radius: 3px;
+    box-shadow: 0 0 10px inset rgba(255, 180, 0, 0.6);
+    border: 2px solid rgba(255, 210, 0, 0.9);
 }
 
-.InnerSquare .BonusOverlay.X3, .InnerSquare .BonusOverlay.X4 {
-    background:linear-gradient(0deg, #f90 0%, #ff0 100%);
-    animation: FadeIn 1s forwards, PulseX3 3s infinite;
+.InnerSquare .BonusOverlay.X3 {
+    box-shadow: 0 0 10px inset rgba(255, 255, 0, 0.7);
+    border: 2px solid rgba(255, 245, 127, 1);
+}
+
+.InnerSquare .BonusOverlay.X4 {
+    box-shadow: 0 0 15px inset rgba(255, 255, 127, 0.7);
+    border: 2px solid rgba(255, 255, 1180, 1);
 }
 
 .InnerSquare .BonusOverlayText {
@@ -172,14 +179,14 @@ a, .Clickable {
     width:100%;
     height:100%;
 
-    font-size:28%;
+    font-size:35%;
     color:#fff;
 
     display:flex;
     justify-content: flex-end;
     align-items: flex-start;
 
-    padding:2% 5%;
+    padding:3% 8%;
 
     font-weight:200;
     opacity:0;
@@ -226,6 +233,7 @@ a, .Clickable {
     font-weight:400;
 }
 
+/*
 @keyframes PulseX2 {
     0% {
         opacity: .0;
@@ -253,6 +261,7 @@ a, .Clickable {
         opacity: .0;
     }
 }
+ */
 
 @keyframes FadeIn {
     from { opacity: 0; }

@@ -159,22 +159,22 @@ function SquareChoice() {
 }
 
 function BonusChoice(Pct) {
-    if (Pct < 0.3) {
+    if (Pct < 0.25) {
         return RandomByProbability([
             {Value: 1, Weight: 0.9},
             {Value: 2, Weight: 0.1}
         ]);
-    } else if (Pct >= 0.3 && Pct < 0.5) {
+    } else if (Pct >= 0.25 && Pct < 0.4) {
         return RandomByProbability([
-            {Value: 1, Weight: 0.75},
-            {Value: 2, Weight: 0.25}
+            {Value: 1, Weight: 0.8},
+            {Value: 2, Weight: 0.2}
         ]);
-    } else if (Pct >= 0.5 && Pct < 0.7) {
+    } else if (Pct >= 0.4 && Pct < 0.6) {
         return RandomByProbability([
             {Value: 2, Weight: 0.8},
             {Value: 3, Weight: 0.2}
         ]);
-    } else if (Pct >= 0.7) {
+    } else if (Pct >= 0.6) {
         return RandomByProbability([
             {Value: 2, Weight: 0.5},
             {Value: 3, Weight: 0.4},

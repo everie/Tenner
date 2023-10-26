@@ -97,7 +97,7 @@ function ScoreSingle(Container, Score) {
         let Row2 = document.createElement('div');
         let Row3 = document.createElement('div');
         let Row4 = document.createElement('div');
-        let Row5 = document.createElement('div');
+        let Board = document.createElement('div');
 
         SetStyle(Row, {
             fontSize: '1.4rem',
@@ -118,8 +118,9 @@ function ScoreSingle(Container, Score) {
             marginTop: '1rem'
         });
 
-        SetStyle(Row5, {
-            marginTop: '2rem'
+        SetStyle(Board, {
+            marginTop: '1rem',
+            marginBottom: '1rem'
         });
 
         Row.innerHTML = 'Score: ' + FormatNumber(Score.Score);
@@ -129,31 +130,42 @@ function ScoreSingle(Container, Score) {
         Container.appendChild(Row);
         Container.appendChild(Row3);
         Container.appendChild(Row2);
+        Container.appendChild(Board);
 
         // MERGES
         Object.keys(Score.Merges).forEach(Key => {
             let Div = document.createElement('div');
             let Div2 = document.createElement('div');
             let Obj = Score.Merges[Key];
+            //
+            // SetStyle(Div, {
+            //     fontSize: '1.2rem',
+            //     marginTop: '.5rem',
+            //     fontWeight: '200'
+            // });
 
-            SetStyle(Div, {
-                fontSize: '1.2rem',
-                marginTop: '.5rem',
-                fontWeight: '200'
+            Div.appendChild(CreateGameSquareSingle(parseInt(Key)));
+            Div2.innerHTML = '<div>Merges: ' + FormatNumber(Obj.Amount) + ', Blocks: ' + FormatNumber(Obj.Blocks) + '</div><div>Average: ' + FormatNumber(Math.round(Obj.Blocks * 10 / Obj.Amount) / 10, false) + ' b/m</div>';
+
+            let R = document.createElement('div');
+
+            SetStyle(R, {
+                display: 'flex',
+                marginBottom: '1rem'
             });
 
-            Div.innerHTML = 'Tier ' + Key;
-            Div2.innerHTML = '<div>Merges: ' + FormatNumber(Obj.Amount) + '</div><div>Blocks: ' + FormatNumber(Obj.Blocks) + '</div><div>Average: ' + FormatNumber(Math.round(Obj.Blocks * 10 / Obj.Amount) / 10, false) + ' b/m</div>';
+            R.appendChild(Div);
+            R.appendChild(Div2);
 
-            Row4.appendChild(Div);
-            Row4.appendChild(Div2);
+            Row4.appendChild(R);
         });
 
         Container.appendChild(Row4);
 
         // BOARD
-        Row5.innerHTML = '<div style="font-size:1.4rem;">End Board</div><div id="Game"><div id="GameContainer"><div id="InnerGame"></div></div></div>';
-        Container.appendChild(Row5);
+        //Board.innerHTML = '<div style="font-size:1.4rem;">End Board</div><div id="Game"><div id="GameContainer"><div id="InnerGame"></div></div></div>';
+        Board.innerHTML = '<div id="Game"><div id="GameContainer"><div id="InnerGame"></div></div></div>';
+        //Container.appendChild(Board);
 
 
 
@@ -270,6 +282,31 @@ function CreateGameSquare(x, y, num) {
     div.innerHTML = num;
 
     div.style.borderColor = GetNumColour(num);
+
+    overlay.className = 'InnerOverlay';
+    //overlay.style.backgroundColor = GetNumColour(num);
+    overlay.style.background = 'linear-gradient(0deg, ' + GetNumColour2(num) + ' 0%, ' + GetNumColour(num) + ' 100%)';
+
+    div.appendChild(overlay);
+
+    return div;
+}
+
+function CreateGameSquareSingle(num) {
+    const Size = 50;
+
+    let div = document.createElement('div');
+    let overlay = document.createElement('div');
+
+    div.className = 'InnerSquare';
+    div.style.position = 'relative';
+    div.style.marginRight = '1rem';
+    div.style.height = Size + 'px';
+    div.style.width = Size + 'px';
+
+    div.dataset.num = num;
+
+    div.innerHTML = num;
 
     overlay.className = 'InnerOverlay';
     //overlay.style.backgroundColor = GetNumColour(num);

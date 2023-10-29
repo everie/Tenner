@@ -1,24 +1,37 @@
+:root{
+    --nav-colour:#1f262b;
+    --back-colour:#13181b;
+    --main-colour:#93979a;
+    --link-colour:#799185;
+}
+
 /* BODY */
-body {
-    background-color:#111;
+body, html {
+    background-color:var(--back-colour);
     font-family: Noto, serif;
     font-weight: 200;
     overflow-x:hidden;
+    overflow-y:auto;
     padding-bottom: 1rem;
+    color: var(--main-colour);
 }
 
-footer {
-    background-color:#ccc;
+.container {
+    height:100%;
+    margin-top:4rem;
 }
 
-main {
-    margin-top:2rem;
-    overflow-x: hidden;
+.navbar {
+    background-color: var(--nav-colour);
+    min-height: 3.5rem;
+    position:absolute;
+    width:100%;
 }
 
-.navbar.bg-dark, .text-bg-dark, .navbar-brand {
-    background-color:#161c20 !important;
-    color:#a7acae !important;
+.navbar-brand {
+    display:flex;
+    align-items: center;
+    margin-left:.2rem;
 }
 
 #Game {
@@ -28,10 +41,15 @@ main {
 }
 
 a, .Clickable {
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
-    font-weight: 100;
-    color:#5a91a3;
+    font-weight: 200;
+    color:var(--link-colour);
+}
+
+a:hover, .Clickable:hover {
+    color:#bcc8c2;
+    text-decoration: underline;
 }
 
 #Progress {
@@ -194,7 +212,7 @@ a, .Clickable {
 }
 
 #GameProgress {
-    color:#999;
+    color: var(--main-colour);
     display:flex;
     flex-direction: row;
     justify-content: space-between;

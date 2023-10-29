@@ -509,22 +509,16 @@ function SinkNewBlockAnimation(Div, Block, Callback) {
     Div.style.opacity = '0';
     Div.style.top = Y1 + 'px';
 
-    let a1 = Div.animate([
+    Div.Animate(
         { top: Y1 + 'px', opacity: 0 },
         { top: Y2 + 'px', opacity: 1 },
-    ], {
-        duration: 150 * Math.pow((1 + Block.Y), 0.25),
-        easing: 'ease-out',
-        fill: 'forwards'
-    });
-
-    a1.onfinish = function() {
-        a1.commitStyles();
-        // Cancel the animation
-        a1.cancel();
-
-        Callback();
-    }
+        {
+            duration: 150 * Math.pow((1 + Block.Y), 0.25),
+            easing: 'ease-out',
+            fill: 'forwards'
+        },
+        Callback
+    );
 }
 
 function ShowScoreAnimation(Block, Score, Callback) {
@@ -555,41 +549,32 @@ function ShowScoreAnimation(Block, Score, Callback) {
     Div.innerHTML = '+' + FormatNumber(Score);
     Inner.appendChild(Div);
 
-    let a1 = Div.animate([
+    Div.Animate(
         { top: Top1 + 'px', opacity: 0, fontSize: F1 + 'px' },
         { top: Top2 + 'px', opacity: 1, fontSize: F2 + 'px' },
-    ], {
-        duration: 300,
-        easing: 'ease-in',
-        fill: 'forwards'
-    });
-
-    a1.onfinish = function() {
-        a1.commitStyles();
-        // Cancel the animation
-        a1.cancel();
-
-
-        let a2 = Div.animate([
-            { top: Top2 + 'px', opacity: 1, fontSize: F2 + 'px' },
-            { top: Top3 + 'px', opacity: 0, fontSize: F3 + 'px' },
-        ], {
-            duration: 250,
-            easing: 'ease-out',
+        {
+            duration: 300,
+            easing: 'ease-in',
             fill: 'forwards'
-        });
+        },
+        function() {
 
-        a2.onfinish = function() {
-            a2.commitStyles();
-            // Cancel the animation
-            a2.cancel();
+            Div.Animate(
+                { top: Top2 + 'px', opacity: 1, fontSize: F2 + 'px' },
+                { top: Top3 + 'px', opacity: 0, fontSize: F3 + 'px' },
+                {
+                    duration: 250,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                },
+                function() {
+                    Div.remove();
+                    Callback();
+                }
+            );
 
-            Div.remove();
-
-            Callback();
         }
-
-    }
+    );
 }
 
 function CreateNewBlock(source, callback) {
@@ -630,7 +615,6 @@ function SelectDeselect(arr, on, callback) {
             let a = arr.pop();
 
             a.Self.style.borderWidth = '0';
-
             a.Self.classList.remove('Selected');
         }
 
@@ -685,7 +669,6 @@ function MergeSynced(source, arr, callback) {
             if (a.ID === Last.ID) {
                 next();
             }
-
         });
 
         setTimeout(function() {
@@ -738,39 +721,46 @@ function MergeAnimation(Source, Element, Callback) {
     const ToX = (To.X - 1) * Current.BlockSize + Size3Adjust;
     const ToY = (To.Y - 1) * Current.BlockSize + Size3Adjust;
 
-    let a1 = Copy.animate([
+    Copy.Animate(
         { width: Size1 + 'px', height: Size1 + 'px', left: (From.BX) + 'px', top: (From.BY) + 'px', fontSize: FS1 + 'px' },
-        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px' }
-    ], {
-        duration: 200,
-        easing: 'ease-in',
-        fill: 'forwards'
-    });
-
-    a1.onfinish = function() {
-        let a2 = Copy.animate([
-            { left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', opacity: 1, width: Size2 + 'px', height: Size2 + 'px', fontSize: FS2 + 'px' },
-            { left: (ToX) + 'px', top: (ToY) + 'px', opacity: 0.4, width: Size3 + 'px', height: Size3 + 'px', fontSize: FS3 + 'px' }
-        ], {
-            duration: 100,
-            easing: 'ease-out',
+        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px' },
+        {
+            duration: 200,
+            easing: 'ease-in',
             fill: 'forwards'
-        });
+        },
+        function() {
 
-        a2.onfinish = function() {
-            let a3 = Copy.animate([
-                { opacity: 0.4 },
-                { opacity: 0 },
-            ], {
-                duration: 40,
-                easing: 'ease-in',
-                fill: 'forwards'
-            });
+            Copy.Animate(
+                { left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', opacity: 1, width: Size2 + 'px', height: Size2 + 'px', fontSize: FS2 + 'px' },
+                { left: (ToX) + 'px', top: (ToY) + 'px', opacity: 0.4, width: Size3 + 'px', height: Size3 + 'px', fontSize: FS3 + 'px' },
+                {
+                    duration: 100,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                },
+                function() {
 
-            Copy.remove();
-            a3.onfinish = Callback;
+                    Copy.Animate(
+                        { opacity: 0.4 },
+                        { opacity: 0 },
+                        {
+                            duration: 40,
+                            easing: 'ease-in',
+                            fill: 'forwards'
+                        },
+                        function() {
+                            Copy.remove();
+                            Callback();
+                        }
+                    );
+
+                }
+            );
+
         }
-    }
+    );
+
 }
 
 function SpawnBlockAnimation(source, callback) {
@@ -800,42 +790,29 @@ function SpawnBlockAnimation(source, callback) {
     source.style.left = ToX + 'px';
     source.style.top = ToY + 'px';
 
-    let a1 = source.animate([
+    source.Animate(
         { width: Size3 + 'px', height: Size3 + 'px', left: ToX + 'px', top: ToY + 'px', fontSize: FS3 + 'px', opacity: 0 },
-        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px', opacity: 1 }
-    ], {
-        duration: 120,
-        easing: 'ease-out',
-        fill: 'forwards'
-    });
-
-    a1.onfinish = function() {
-
-        a1.commitStyles();
-        // Cancel the animation
-        a1.cancel();
-
-        let a2 = source.animate([
-            { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px' },
-            { width: Size1 + 'px', height: Size1 + 'px', left: From.BX + 'px', top: From.BY + 'px', fontSize: FS1 + 'px' }
-        ], {
-            duration: 40,
-            easing: 'ease-in',
+        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px', opacity: 1 },
+        {
+            duration: 120,
+            easing: 'ease-out',
             fill: 'forwards'
-        });
+        },
+        function() {
 
-        a2.onfinish = function() {
-            a2.commitStyles();
-            // Cancel the animation
-            a2.cancel();
+            source.Animate(
+                { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px' },
+                { width: Size1 + 'px', height: Size1 + 'px', left: From.BX + 'px', top: From.BY + 'px', fontSize: FS1 + 'px' },
+                {
+                    duration: 40,
+                    easing: 'ease-in',
+                    fill: 'forwards'
+                },
+                callback
+            );
 
-            // clear font-size
-            source.style.fontSize = '';
-
-            callback();
         }
-
-    }
+    );
 }
 
 function SinkStackAnimation(StackObj, Callback) {
@@ -877,22 +854,16 @@ function SinkBlockAnimation(Block, Callback) {
     Element.dataset.y = EndY;
     Element.dataset.id = 'X' + Block.X + 'Y' + EndY;
 
-    let a1 = Element.animate([
+    Element.Animate(
         { top: Y1 + 'px' },
         { top: Y2 + 'px' },
-    ], {
-        duration: 100 * Math.pow(Block.Distance, 0.8),
-        easing: 'ease-in-out',
-        fill: 'forwards'
-    });
-
-    a1.onfinish = function() {
-        a1.commitStyles();
-        // Cancel the animation
-        a1.cancel();
-
-        Callback();
-    }
+        {
+            duration: 100 * Math.pow(Block.Distance, 0.8),
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        },
+        Callback
+    );
 }
 
 function CalcScore(Bonus) {

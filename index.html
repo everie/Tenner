@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>TENSION</title>
-    <link rel="icon" type="image/png" href="imgs/Logo.png" />
+    <link rel="icon" type="image/png" href="imgs/Logo_64.png" />
     <link href="css/bulma/bulma.min.css" rel="stylesheet">
     <link href="css/tenner.css" rel="stylesheet">
     <link href="css/fonts.css" rel="stylesheet">
@@ -15,35 +15,25 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a href="index.html" class="navbar-brand d-flex align-items-center">
-            <img src="imgs/Logo.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px; font-size:120%; font-weight:100; text-shadow: 2px 2px #000;"><span style="font-weight: 600;">TEN</span>SION</div>
+        <a href="index.html" class="navbar-item">
+            <img src="imgs/Logo_64.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px; font-size:120%; font-weight:100; text-shadow: 2px 2px #000;"><span style="font-weight: 600;">TEN</span>SION</div>
         </a>
 
-        <a role="button" class="navbar-burger is-primary" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger is-primary" aria-label="menu" aria-expanded="false" data-target="menu">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
         </a>
     </div>
 
-    <div class="navbar-end">
-        <div class="navbar-item has-dropdown">
-            <a class="navbar-link">
-                Menu
+    <div id="menu" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item" href="score.html">
+                Scores
             </a>
-
-            <div class="navbar-dropdown is-right">
-                <a class="navbar-item">
-                    Scores
-                </a>
-                <a class="navbar-item">
-                    Reset
-                </a>
-                <hr class="navbar-divider">
-                <div class="navbar-item">
-                    Version 0.9
-                </div>
-            </div>
+            <a class="navbar-item ResetGame">
+                Reset
+            </a>
         </div>
     </div>
 </nav>
@@ -103,100 +93,10 @@
     </div>
 </div>
 
-            <!--<header data-bs-theme="dark">-->
-<!--    <div class="collapse text-bg-dark" id="navbarHeader">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-sm-8 col-md-7 py-4">-->
-<!--                    <h4>Menu</h4>-->
-<!--                    <div>-->
-<!--                        <a class="Clickable" href="score.html">Scores</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-sm-4 offset-md-1 py-4" style="display:flex; flex-direction: column; align-items: end;">-->
-<!--                    <h4>Settings</h4>-->
-<!--                    <div class="Clickable ResetGame" id="ResetGame" data-bs-toggle="collapse" data-bs-target="#navbarHeader">-->
-<!--                        Reset-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="navbar navbar-dark bg-dark shadow-sm">-->
-<!--        <div class="container">-->
-<!--            <a href="index.html" class="navbar-brand d-flex align-items-center">-->
-<!--                <img src="imgs/aya10_196.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px;">Tenner</div>-->
-<!--            </a>-->
-<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--                <span class="navbar-toggler-icon"></span>-->
-<!--            </button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</header>-->
-
-<!--<main>-->
-
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <div id="Progress">-->
-<!--                    <div id="GameProgress">-->
-<!--                        <div id="GameScore">-->
-<!--                            <span>Score:</span>-->
-<!--                            <span id="Points">0</span>-->
-<!--                        </div>-->
-<!--                        <div id="GameMove">-->
-<!--                            <span>Moves:</span>-->
-<!--                            <span id="Moves">0</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <div id="Game">-->
-<!--                    <div id="GameContainer">-->
-<!--                        <div id="InnerGame">-->
-<!--                            &lt;!&ndash; GAME &ndash;&gt;-->
-<!--                        </div>-->
-<!--                        <div id="InnerGameMessages">-->
-<!--                            &lt;!&ndash; Messages &ndash;&gt;-->
-<!--                        </div>-->
-<!--                        <div id="InnerGameOverlay">-->
-<!--                            &lt;!&ndash; Overlay &ndash;&gt;-->
-<!--                            <div class="InnerGameOverlayMessage">-->
-<!--                                <div style="font-weight: bold;">THE END</div>-->
-<!--                                <div id="GamePositionContainer">Position: <span id="GamePosition">0</span></div>-->
-<!--                                <div class="Clickable ResetGame">Reset</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <div id="ProgressBottom">-->
-<!--                    <div id="GameProgressBottom">-->
-<!--                        <div id="GameOptions">-->
-<!--                            <span>Options:</span>-->
-<!--                            <span id="Options">0</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</main>-->
-
+<script src="js/EExt.min.js"></script>
 <script src="js/EHelpers.min.js"></script>
 <script src="js/ESettings.min.js"></script>
 <script src="js/ETen.min.js"></script>
-<script src="js/EExt.min.js"></script>
-
+<script src="js/EBulma.min.js"></script>
 </body>
 </html>

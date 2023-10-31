@@ -16,6 +16,7 @@ const Current = {
     BlockSize: 0,
     FontSize: 0,
     ScoreSize: 0,
+    Auto: false,
     Merges: {},
     HasSelect: function() {
         return this.Selected.length > 1;

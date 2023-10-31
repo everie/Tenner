@@ -18,14 +18,31 @@ body, html {
 
 .container {
     height:100%;
-    margin-top:4rem;
+    margin-top:5rem;
+    padding:.5rem;
 }
 
 .navbar {
-    background-color: var(--nav-colour);
-    min-height: 3.5rem;
     position:absolute;
     width:100%;
+}
+
+.navbar, .navbar-menu {
+    background-color: var(--nav-colour);
+    min-height: 3.5rem;
+}
+
+.navbar-link:hover, a.navbar-item:hover, .navbar-item.has-dropdown .navbar-link:hover, .navbar-link:hover {
+    background-color: transparent;
+    color:var(--link-colour);
+}
+
+.navbar-burger, .navbar-burger.is-active {
+    color:var(--main-colour);
+}
+
+.navbar-burger.is-active {
+    color:#fff;
 }
 
 .navbar-brand {
@@ -40,14 +57,14 @@ body, html {
     justify-content: center;
 }
 
-a, .Clickable {
+a, .Clickable, a.navbar-item, .navbar-item, .navbar-link {
     text-decoration: none;
     cursor: pointer;
     font-weight: 200;
     color:var(--link-colour);
 }
 
-a:hover, .Clickable:hover {
+a:hover, .Clickable:hover, a.navbar-item:hover {
     color:#bcc8c2;
     text-decoration: underline;
 }

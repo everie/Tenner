@@ -15,6 +15,7 @@
     }
 
     UpdateScore();
+    Emit('InitDone');
 })();
 
 window.onresize = function() {
@@ -43,6 +44,37 @@ function SetUpReset() {
             UpdateScore();
         };
     });
+}
+
+function SetUpAutoPlay() {
+    let EventHandler = () => {
+        if (Current.Auto) {
+            let Groups = CalculateOptions();
+
+            if (Groups.length > 0) {
+                let G = Random(0, Groups.length - 1);
+                let B = Random(0, Groups[G].length - 1);
+
+                let Block = Groups[G][B];
+
+                Block.Self.click();
+
+                setTimeout(function() {
+                    Block.Self.click();
+                }, 400);
+            }
+        }
+    };
+
+    Listen('MoveDone', EventHandler);
+    Listen('InitDone', EventHandler);
+}
+
+function InitAutoPlay(Start = true) {
+    Current.Auto = Start;
+
+    SetUpAutoPlay();
+    Emit('MoveDone');
 }
 
 function Populate() {
@@ -116,6 +148,7 @@ function CreateGameSquare(x, y, num, b = null) {
                         // DESELECT - CLICKED OUTSIDE
                         SelectDeselect(Current.Selected, false, function() {
                             //console.log('done deselected');
+                            Emit('SelectDone');
                         });
                     }
 
@@ -286,7 +319,9 @@ function RemoveAllFriends(element) {
                         StoreCurrentState();
 
                         //console.log('all dropped.');
+
                         Current.Busy = false;
+                        Emit('MoveDone');
                     });
                 });
             });
@@ -456,7 +491,7 @@ function FillEmptySquares(callback) {
             setTimeout(function() {
                 if (Block.ID !== Last.ID)
                     Next();
-            }, 40);
+            }, 30);
 
         }, function(err) {
             if (err)
@@ -606,11 +641,12 @@ function SelectDeselect(arr, on, callback) {
             a.Self.classList.add('Selected');
 
             /*
-            if (a.Left === null) a.Self.style.borderLeftWidth = '1px';
-            if (a.Right === null) a.Self.style.borderRightWidth = '1px';
-            if (a.Over === null) a.Self.style.borderTopWidth = '1px';
-            if (a.Under === null) a.Self.style.borderBottomWidth = '1px';
-            */
+            if (a.Left === null) a.Self.style.borderLeftWidth = '2px';
+            if (a.Right === null) a.Self.style.borderRightWidth = '2px';
+            if (a.Over === null) a.Self.style.borderTopWidth = '2px';
+            if (a.Under === null) a.Self.style.borderBottomWidth = '2px';
+             */
+
         } else {
             let a = arr.pop();
 
@@ -642,7 +678,7 @@ function FillGapsSynced(Stacks, callback) {
 
             setTimeout(function() {
                 Next();
-            }, 30);
+            }, 10);
 
         }, function(err) {
             if (err)
@@ -676,7 +712,7 @@ function MergeSynced(source, arr, callback) {
                 next();
             }
 
-        }, 40);
+        }, 30);
 
     }, function(err) {
         if (err)
@@ -829,7 +865,7 @@ function SinkStackAnimation(StackObj, Callback) {
         if (Block.ID !== Last.ID) {
             setTimeout(function() {
                 Next();
-            }, 40);
+            }, 30);
         }
 
     }, function(err) {
@@ -858,7 +894,7 @@ function SinkBlockAnimation(Block, Callback) {
         { top: Y1 + 'px' },
         { top: Y2 + 'px' },
         {
-            duration: 100 * Math.pow(Block.Distance, 0.8),
+            duration: 90 * Math.pow(Block.Distance, 0.8),
             easing: 'ease-in-out',
             fill: 'forwards'
         },

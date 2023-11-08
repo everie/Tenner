@@ -4,6 +4,7 @@
 
     ReSize();
     SetUpReset();
+    SetUpUndo();
 
     let LastBlocks = LoadLastState();
 
@@ -24,10 +25,10 @@ window.onresize = function() {
 
 function SetUpReset() {
     let Resets = document.querySelectorAll('.ResetGame');
-    let End = document.querySelector('#InnerGameOverlay');
 
     Resets.forEach(element => {
         element.onclick = function() {
+            /*
             localStorage.setItem('GAME', '');
 
             Current['High'] = Defaults.Start;
@@ -37,13 +38,42 @@ function SetUpReset() {
             Current['Move'] = 0;
             Current['Merges'] = {};
             Current['Start'] = GetTimestamp();
+            Current['Undo'] = {
+                Count: 0,
+                Moves: 0
+            };
 
             End.style.display = 'none';
 
             Populate();
             UpdateScore();
+
+             */
+            ResetGame();
         };
     });
+}
+
+function ResetGame() {
+    let End = document.querySelector('#InnerGameOverlay');
+    localStorage.setItem('GAME', '');
+
+    Current['High'] = Defaults.Start;
+    Current['Blocks'] = [];
+    Current['Selected'] = [];
+    Current['Score'] = 0;
+    Current['Move'] = 0;
+    Current['Merges'] = {};
+    Current['Start'] = GetTimestamp();
+    Current['Undo'] = {
+        Count: 0,
+        Moves: 0
+    };
+
+    End.style.display = 'none';
+
+    Populate();
+    UpdateScore();
 }
 
 function SetUpAutoPlay() {
@@ -77,6 +107,23 @@ function InitAutoPlay(Start = true) {
     Emit('MoveDone');
 }
 
+function SetUpUndo() {
+    let Button = document.querySelector('#GameUndo');
+
+    Button.onclick = function() {
+        let LastBlocks = LoadLastState('LAST');
+
+        if (LastBlocks !== undefined && LastBlocks !== null) {
+            Current.Blocks = [];
+            PopulateLoaded(LastBlocks);
+
+            UpdateScore();
+            StoreCurrentState();
+            Emit('InitDone');
+        }
+    }
+}
+
 function Populate() {
     const Inner = document.querySelector('#InnerGame');
     Inner.innerHTML = '';
@@ -95,6 +142,7 @@ function Populate() {
 
 function PopulateLoaded(LastBlocks) {
     const Inner = document.querySelector('#InnerGame');
+    Inner.innerHTML = '';
 
     LastBlocks.forEach(function(Block) {
         let div = CreateGameSquare(Block.X - 1, Block.Y - 1, Block.Num, Block.B);
@@ -143,6 +191,7 @@ function CreateGameSquare(x, y, num, b = null) {
                 if (Current.HasSelect()) {
                     if (Current.Selected.filter(a => a.ID === this.dataset.id).length > 0) {
                         // REMOVE SELECTED
+                        StoreLastState();
                         RemoveAllFriends(this);
                     } else {
                         // DESELECT - CLICKED OUTSIDE

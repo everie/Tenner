@@ -1,6 +1,8 @@
 const Defaults = {
     Size: 5,
-    Start: 3
+    Start: 3,
+    UndoMax: 3,
+    UndoIncrease: 100
 };
 
 const Current = {
@@ -17,6 +19,10 @@ const Current = {
     FontSize: 0,
     ScoreSize: 0,
     Auto: false,
+    Undo: {
+        Moves: 0,
+        Count: 0
+    },
     Merges: {},
     HasSelect: function() {
         return this.Selected.length > 1;
@@ -203,8 +209,14 @@ function StoreCurrentState() {
     localStorage.setItem('GAME', JSON.stringify(Obj));
 }
 
-function LoadLastState() {
-    let Game = GetLocalItem('GAME');
+function StoreLastState() {
+    let Obj = GetCurrentState();
+
+    localStorage.setItem('LAST', JSON.stringify(Obj));
+}
+
+function LoadLastState(Key = 'GAME') {
+    let Game = GetLocalItem(Key);
 
     if (Game !== null) {
         Current.High = Game.High;

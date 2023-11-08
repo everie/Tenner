@@ -3,6 +3,7 @@
     --back-colour:#13181b;
     --main-colour:#93979a;
     --link-colour:#799185;
+    --link-disabled:#d0b5b6;
 }
 
 /* BODY */
@@ -62,6 +63,11 @@ a, .Clickable, a.navbar-item, .navbar-item, .navbar-link {
     cursor: pointer;
     font-weight: 200;
     color:var(--link-colour);
+}
+
+.Clickable.disabled {
+    cursor: pointer;
+    color:var(--link-disabled);
 }
 
 a:hover, .Clickable:hover, a.navbar-item:hover {

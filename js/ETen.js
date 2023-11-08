@@ -109,18 +109,35 @@ function InitAutoPlay(Start = true) {
 
 function SetUpUndo() {
     let Button = document.querySelector('#GameUndo');
+    UpdateUndoButton();
 
     Button.onclick = function() {
-        let LastBlocks = LoadLastState('LAST');
+        if (Current.Undo.Can) {
+            Current.Undo.Can = false;
+            let LastBlocks = LoadLastState('LAST');
 
-        if (LastBlocks !== undefined && LastBlocks !== null) {
-            Current.Blocks = [];
-            PopulateLoaded(LastBlocks);
+            if (LastBlocks !== undefined && LastBlocks !== null) {
+                Current.Blocks = [];
+                Current.Undo.Can = false;
+                PopulateLoaded(LastBlocks);
 
-            UpdateScore();
-            StoreCurrentState();
-            Emit('InitDone');
+                UpdateScore();
+                StoreCurrentState();
+                ClearLastState();
+                UpdateUndoButton();
+                Emit('InitDone');
+            }
         }
+    }
+}
+
+function UpdateUndoButton() {
+    let Button = document.querySelector('#GameUndo');
+
+    if (!Current.Undo.Can) {
+        Button.classList.add('disabled');
+    } else {
+        Button.classList.remove('disabled');
     }
 }
 
@@ -192,6 +209,8 @@ function CreateGameSquare(x, y, num, b = null) {
                     if (Current.Selected.filter(a => a.ID === this.dataset.id).length > 0) {
                         // REMOVE SELECTED
                         StoreLastState();
+                        Current.Undo.Can = true;
+                        UpdateUndoButton();
                         RemoveAllFriends(this);
                     } else {
                         // DESELECT - CLICKED OUTSIDE

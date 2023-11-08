@@ -21,7 +21,8 @@ const Current = {
     Auto: false,
     Undo: {
         Moves: 0,
-        Count: 0
+        Count: 0,
+        Can: false
     },
     Merges: {},
     HasSelect: function() {
@@ -229,6 +230,10 @@ function LoadLastState(Key = 'GAME') {
     }
 
     return null;
+}
+
+function ClearLastState() {
+    localStorage.setItem('LAST', '');
 }
 
 function SaveLastStateOnEnd() {

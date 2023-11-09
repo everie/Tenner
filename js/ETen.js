@@ -28,27 +28,6 @@ function SetUpReset() {
 
     Resets.forEach(element => {
         element.onclick = function() {
-            /*
-            localStorage.setItem('GAME', '');
-
-            Current['High'] = Defaults.Start;
-            Current['Blocks'] = [];
-            Current['Selected'] = [];
-            Current['Score'] = 0;
-            Current['Move'] = 0;
-            Current['Merges'] = {};
-            Current['Start'] = GetTimestamp();
-            Current['Undo'] = {
-                Count: 0,
-                Moves: 0
-            };
-
-            End.style.display = 'none';
-
-            Populate();
-            UpdateScore();
-
-             */
             ResetGame();
         };
     });
@@ -66,8 +45,9 @@ function ResetGame() {
     Current['Merges'] = {};
     Current['Start'] = GetTimestamp();
     Current['Undo'] = {
-        Count: 0,
-        Moves: 0
+        Count: Defaults.UndoMax,
+        Moves: Defaults.UndoIncrease,
+        Can: false
     };
 
     End.style.display = 'none';
@@ -157,6 +137,14 @@ function UpdateUndo() {
 }
 
 function UpdateUndoMoves() {
+    if (Current.Undo === undefined || Current.Undo === null) {
+        Current.Undo = {
+            Count: Defaults.UndoMax,
+            Moves: Defaults.UndoIncrease,
+            Can: false
+        }
+    }
+
     Current.Undo.Can = true;
     Current.Undo.Moves--;
 

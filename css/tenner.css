@@ -3,7 +3,7 @@
     --back-colour:#13181b;
     --main-colour:#93979a;
     --link-colour:#799185;
-    --link-disabled:#d0b5b6;
+    --link-disabled:#f14668;
 }
 
 /* BODY */
@@ -15,6 +15,16 @@ body, html {
     overflow-y:auto;
     padding-bottom: 1rem;
     color: var(--main-colour);
+    font-size:1rem;
+}
+
+.NoLineBreak {
+    white-space: nowrap;
+}
+
+.button {
+    font-size:1rem;
+    font-family: Noto, serif;
 }
 
 .container {
@@ -66,8 +76,18 @@ a, .Clickable, a.navbar-item, .navbar-item, .navbar-link {
 }
 
 .Clickable.disabled {
-    cursor: pointer;
+    cursor: default;
     color:var(--link-disabled);
+}
+
+.Clickable.disabled:hover {
+    text-decoration: none;
+    color:var(--link-disabled);
+}
+
+.button.disabled {
+    background-color:var(--link-disabled);
+    border-color:var(--link-disabled);
 }
 
 a:hover, .Clickable:hover, a.navbar-item:hover {

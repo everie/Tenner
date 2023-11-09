@@ -44,11 +44,13 @@
             <div id="Progress">
                 <div id="GameProgress">
                     <div id="GameScore">
-                        <span>Score:</span>
+<!--                        <img src="imgs/icons/star.svg" style="display:inline-block;" alt="Score" />-->
+                        Score:
                         <span id="Points">0</span>
                     </div>
                     <div id="GameMove">
-                        <span>Moves:</span>
+<!--                        <img src="imgs/icons/step.svg" alt="Moves" style="display:inline-block;" />-->
+                        Moves:
                         <span id="Moves">0</span>
                     </div>
                 </div>
@@ -83,11 +85,21 @@
         <div class="col-12">
             <div id="ProgressBottom">
                 <div id="GameProgressBottom">
-                    <div id="GameUndo" class="Clickable">
-                        Undo
+
+                    <div class="NoLineBreak">
+                        <img src="imgs/icons/undo.svg" alt="Undo" />
+                        <span id="GameUndo" class="Clickable">
+                            Undo <span style="font-weight:100;">(<span id="GameUndoCount">0</span>)</span>
+                        </span>
                     </div>
-                    <div id="GameOptions">
-                        <span>Options:</span>
+
+<!--                    <button class="button is-small" id="GameUndo" type="button">-->
+<!--                        <img src="imgs/icons/undo.svg" alt="Options" />-->
+<!--                        <span style="margin-left:.3rem;" id="GameUndoCount">0</span>-->
+<!--                    </button>-->
+                    <div id="GameOptions" class="NoLineBreak">
+<!--                        <span><img src="imgs/icons/bulb.svg" alt="Options" /></span>-->
+                        Options:
                         <span id="Options">0</span>
                     </div>
                 </div>

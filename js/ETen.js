@@ -109,35 +109,60 @@ function InitAutoPlay(Start = true) {
 
 function SetUpUndo() {
     let Button = document.querySelector('#GameUndo');
-    UpdateUndoButton();
+    Current.Undo = {
+        Count: Defaults.UndoMax,
+        Moves: Defaults.UndoIncrease
+    }
+    UpdateUndo();
 
     Button.onclick = function() {
-        if (Current.Undo.Can) {
-            Current.Undo.Can = false;
-            let LastBlocks = LoadLastState('LAST');
+        GameUndoMove();
+    }
+}
 
-            if (LastBlocks !== undefined && LastBlocks !== null) {
-                Current.Blocks = [];
-                Current.Undo.Can = false;
-                PopulateLoaded(LastBlocks);
+function GameUndoMove() {
+    if (Current.Undo.Can && !Current.Busy && Current.Undo.Count > 0) {
+        Current.Undo.Can = false;
+        let LastBlocks = LoadLastState('LAST');
 
-                UpdateScore();
-                StoreCurrentState();
-                ClearLastState();
-                UpdateUndoButton();
-                Emit('InitDone');
-            }
+        if (LastBlocks !== undefined && LastBlocks !== null) {
+            Current.Blocks = [];
+            Current.Undo.Count--;
+            Current.Undo.Moves = Defaults.UndoIncrease;
+
+            PopulateLoaded(LastBlocks);
+
+            UpdateScore();
+            StoreCurrentState();
+            ClearLastState();
+            UpdateUndo();
+            Emit('InitDone');
         }
     }
 }
 
-function UpdateUndoButton() {
+function UpdateUndo() {
     let Button = document.querySelector('#GameUndo');
+    let Counter = document.querySelector('#GameUndoCount');
 
     if (!Current.Undo.Can) {
         Button.classList.add('disabled');
     } else {
         Button.classList.remove('disabled');
+    }
+
+    Counter.innerHTML = Current.Undo.Count;
+}
+
+function UpdateUndoMoves() {
+    Current.Undo.Can = true;
+    Current.Undo.Moves--;
+
+    if (Current.Undo.Moves < 1) {
+        if (Current.Undo.Count < 3)
+            Current.Undo.Count++;
+
+        Current.Undo.Moves = Defaults.UndoIncrease;
     }
 }
 
@@ -209,9 +234,13 @@ function CreateGameSquare(x, y, num, b = null) {
                     if (Current.Selected.filter(a => a.ID === this.dataset.id).length > 0) {
                         // REMOVE SELECTED
                         StoreLastState();
-                        Current.Undo.Can = true;
-                        UpdateUndoButton();
-                        RemoveAllFriends(this);
+                        RemoveAllFriends(this, function() {
+                            UpdateUndoMoves();
+
+                            Current.Busy = false;
+                            UpdateUndo();
+                            Emit('MoveDone');
+                        });
                     } else {
                         // DESELECT - CLICKED OUTSIDE
                         SelectDeselect(Current.Selected, false, function() {
@@ -344,7 +373,7 @@ function GetAllFriends(element) {
         }
 }
 
-function RemoveAllFriends(element) {
+function RemoveAllFriends(element, callback) {
     Current.Busy = true;
     let Bonus = (element.dataset.bonus ? parseInt(element.dataset.bonus) : 1);
 
@@ -388,8 +417,9 @@ function RemoveAllFriends(element) {
 
                         //console.log('all dropped.');
 
-                        Current.Busy = false;
-                        Emit('MoveDone');
+
+
+                        callback();
                     });
                 });
             });

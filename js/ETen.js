@@ -122,13 +122,13 @@ function SetUpUndo() {
 
 function GameUndoMove() {
     if (Current.Undo.Can && !Current.Busy && Current.Undo.Count > 0) {
-        Current.Undo.Can = false;
         let LastBlocks = LoadLastState('LAST');
 
         if (LastBlocks !== undefined && LastBlocks !== null) {
             Current.Blocks = [];
             Current.Undo.Count--;
             Current.Undo.Moves = Defaults.UndoIncrease;
+            Current.Undo.Can = false;
 
             PopulateLoaded(LastBlocks);
 
@@ -142,16 +142,18 @@ function GameUndoMove() {
 }
 
 function UpdateUndo() {
-    let Button = document.querySelector('#GameUndo');
-    let Counter = document.querySelector('#GameUndoCount');
+    if (Current.Undo !== undefined && Current.Undo !== null) {
+        let Button = document.querySelector('#GameUndo');
+        let Counter = document.querySelector('#GameUndoCount');
 
-    if (!Current.Undo.Can) {
-        Button.classList.add('disabled');
-    } else {
-        Button.classList.remove('disabled');
+        if (!Current.Undo.Can || Current.Undo.Count < 1) {
+            Button.classList.add('disabled');
+        } else {
+            Button.classList.remove('disabled');
+        }
+
+        Counter.innerHTML = Current.Undo.Count;
     }
-
-    Counter.innerHTML = Current.Undo.Count;
 }
 
 function UpdateUndoMoves() {

@@ -198,7 +198,8 @@ function GetCurrentState() {
         Score: Current.Score,
         Blocks: Current.BlocksAsObj(),
         Merges: Current.Merges,
-        Start: Current.Start
+        Start: Current.Start,
+        Undo: Current.Undo
     };
 
     return Obj;
@@ -225,6 +226,7 @@ function LoadLastState(Key = 'GAME') {
         Current.Score = Game.Score;
         Current.Merges = Game.Merges;
         Current.Start = Game.Start;
+        Current.Undo = Game.Undo;
 
         return Game.Blocks;
     }

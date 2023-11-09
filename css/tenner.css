@@ -80,6 +80,14 @@ a, .Clickable, a.navbar-item, .navbar-item, .navbar-link {
     color:var(--link-disabled);
 }
 
+#GameUndo {
+    display:inline-block;
+}
+
+#GameUndo.disabled {
+    display:none;
+}
+
 .Clickable.disabled:hover {
     text-decoration: none;
     color:var(--link-disabled);

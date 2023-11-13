@@ -35,7 +35,7 @@ function SetUpReset() {
 
 function ResetGame() {
     let End = document.querySelector('#InnerGameOverlay');
-    localStorage.setItem('GAME', '');
+    localStorage.setItem(Defaults.LocalGameData, '');
 
     Current['High'] = Defaults.Start;
     Current['Blocks'] = [];
@@ -102,7 +102,7 @@ function SetUpUndo() {
 
 function GameUndoMove() {
     if (Current.Undo.Can && !Current.Busy && Current.Undo.Count > 0) {
-        let LastBlocks = LoadLastState('LAST');
+        let LastBlocks = LoadLastState(Defaults.LocalLastState);
 
         if (LastBlocks !== undefined && LastBlocks !== null) {
             Current.Blocks = [];

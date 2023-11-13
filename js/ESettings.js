@@ -2,7 +2,10 @@ const Defaults = {
     Size: 5,
     Start: 3,
     UndoMax: 3,
-    UndoIncrease: 100
+    UndoIncrease: 100,
+    LocalGameData: 'GAME',
+    LocalHighScore: 'HIGH',
+    LocalLastState: 'LAST'
 };
 
 const Current = {
@@ -208,16 +211,16 @@ function GetCurrentState() {
 function StoreCurrentState() {
     let Obj = GetCurrentState();
 
-    localStorage.setItem('GAME', JSON.stringify(Obj));
+    localStorage.setItem(Defaults.LocalGameData, JSON.stringify(Obj));
 }
 
 function StoreLastState() {
     let Obj = GetCurrentState();
 
-    localStorage.setItem('LAST', JSON.stringify(Obj));
+    localStorage.setItem(Defaults.LocalLastState, JSON.stringify(Obj));
 }
 
-function LoadLastState(Key = 'GAME') {
+function LoadLastState(Key = Defaults.LocalGameData) {
     let Game = GetLocalItem(Key);
 
     if (Game !== null) {
@@ -235,11 +238,11 @@ function LoadLastState(Key = 'GAME') {
 }
 
 function ClearLastState() {
-    localStorage.setItem('LAST', '');
+    localStorage.setItem(Defaults.LocalLastState, '');
 }
 
 function SaveLastStateOnEnd() {
-    let Scores = GetLocalItem('HIGH');
+    let Scores = GetLocalItem(Defaults.LocalHighScore);
     let End = GetCurrentState();
 
     End['ID'] = MakeGameID(20);
@@ -254,7 +257,7 @@ function SaveLastStateOnEnd() {
         if (Top.length > 10)
             Top.pop();
 
-        localStorage.setItem('HIGH', JSON.stringify(Scores));
+        localStorage.setItem(Defaults.LocalHighScore, JSON.stringify(Scores));
 
         return Top.findIndex(a => a.ID === End.ID) + 1;
     } else {
@@ -262,7 +265,7 @@ function SaveLastStateOnEnd() {
             Top: [End]
         };
 
-        localStorage.setItem('HIGH', JSON.stringify(Obj));
+        localStorage.setItem(Defaults.LocalHighScore, JSON.stringify(Obj));
 
         return 1;
     }

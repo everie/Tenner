@@ -254,7 +254,6 @@ function ReSize() {
     const GameContainer = document.querySelector('#GameContainer');
     const GameProgress = document.querySelector('#GameProgress');
     const GameProgressBottom = document.querySelector('#GameProgressBottom');
-    const GameBonus = document.querySelector('.BonusOverlayText');
 
     const WindowHeight = window.innerHeight;
     const WindowWidth = GetSize('#Game').width;

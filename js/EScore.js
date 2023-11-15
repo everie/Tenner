@@ -67,7 +67,7 @@ function ScoreList(Container, Scores) {
 
     Scores.forEach(a => {
         let Row = ScoreListRow({
-            Text: '<a href="score.html?id=' + a.ID + '">' + FormatNumber(a.Score) + '</a>',
+            Text: '<a href="score.html?id=' + a.ID + '"><img src="imgs/icons/star.svg" width="16" style="margin-right:.5rem;" />' + FormatNumber(a.Score) + '</a>',
             Style: {
                 textAlign: 'left'
             }
@@ -204,7 +204,7 @@ function ReSize() {
     const GameContainer = document.querySelector('#GameContainer');
 
     const WindowHeight = window.innerHeight;
-    const WindowWidth = GetSize('#Game').width;
+    const WindowWidth = GetSize('#Game')?.width;
 
     let Size = WindowHeight > WindowWidth ? WindowWidth : WindowHeight * 0.7;
 
@@ -215,12 +215,14 @@ function ReSize() {
     Current.FontSize = (GameSize / Defaults.Size) * 0.5;
     Current.ScoreSize = (GameSize / Defaults.Size) * 0.25;
 
-    GameContainer.style.height = GameSize + 'px';
-    GameContainer.style.width = GameSize  + 'px';
+    if (GameContainer !== null) {
+        GameContainer.style.height = GameSize + 'px';
+        GameContainer.style.width = GameSize  + 'px';
 
-    GameContainer.style.fontSize = Current.FontSize + 'px';
+        GameContainer.style.fontSize = Current.FontSize + 'px';
 
-    ResizeSquares();
+        ResizeSquares();
+    }
 }
 
 function ResizeSquares() {

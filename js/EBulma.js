@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = $menu.dataset.target;
             const $target = document.getElementById(target);
 
-            $target.classList.toggle('is-active');
+            $target.classList.remove('is-active');
+            $navbarBurgers.forEach(el => {
+                el.classList.remove('is-active');
+            });
         });
     }
 });

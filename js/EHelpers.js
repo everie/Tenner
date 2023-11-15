@@ -136,6 +136,9 @@ function SetStyle(Element, Style) {
 
 function GetSize(selector) {
     const element = document.querySelector(selector);
+    if (element === null)
+        return null;
+
     const positionInfo = element.getBoundingClientRect();
 
     return {

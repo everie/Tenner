@@ -91,8 +91,6 @@ function ScoreList(Container, Scores) {
 
 function ScoreSingle(Container, Score) {
     if (Score !== undefined && Score !== null) {
-        console.log(Score);
-
         let Row = document.createElement('div');
         let Row2 = document.createElement('div');
         let Row3 = document.createElement('div');

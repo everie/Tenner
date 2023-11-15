@@ -107,7 +107,7 @@ function GetReadableTimestamp(Time, Short = false) {
     let D = new Date(Time);
 
     let Year = D.getFullYear();
-    let Month = D.getMonth();
+    let Month = D.getMonth() + 1;
     let Day = D.getDate();
 
     let d = Pad(Day) + '-' + Pad(Month) + '-' + Year;

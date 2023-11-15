@@ -54,6 +54,7 @@ function ResetGame() {
 
     Populate();
     UpdateScore();
+    SetUpUndo();
 }
 
 function SetUpAutoPlay() {

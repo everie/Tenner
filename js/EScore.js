@@ -218,6 +218,7 @@ function ReSize() {
     if (GameContainer !== null) {
         GameContainer.style.height = GameSize + 'px';
         GameContainer.style.width = GameSize  + 'px';
+        GameContainer.style.borderRadius = '8px';
 
         GameContainer.style.fontSize = Current.FontSize + 'px';
 
@@ -298,9 +299,7 @@ function CreateGameSquareSingle(num) {
     let div = document.createElement('div');
     let overlay = document.createElement('div');
 
-    div.className = 'InnerSquare';
-    div.style.position = 'relative';
-    div.style.marginRight = '1rem';
+    div.className = 'InnerSquare ScoreSingle';
     div.style.height = Size + 'px';
     div.style.width = Size + 'px';
 

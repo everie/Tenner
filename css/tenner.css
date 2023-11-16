@@ -176,7 +176,6 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
 
     position:absolute;
-    /*border-width: 0 0 .4rem 0;*/
     border-width: 0;
     border-style:solid;
 
@@ -189,6 +188,15 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     user-select:none;
 
     transition: background-color 60ms;
+}
+
+.InnerSquare.ScoreSingle {
+    position:relative;
+    margin-right:1rem;
+    font-size:200%;
+    font-weight:200;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .InnerSquare.Selected {

@@ -894,10 +894,6 @@ function SpawnBlockAnimation(source, callback) {
     let SizeDelta = Size2 - Size1;
     let SizeAdjust = SizeDelta / 2;
 
-    let FS1 = Current.FontSize;
-    let FS2 = FS1 * 1.3;
-    let FS3 = FS2 * 0.6;
-
     const To = GetXY(source);
     const From = {
         X: To.X,
@@ -915,8 +911,8 @@ function SpawnBlockAnimation(source, callback) {
     source.style.top = ToY + 'px';
 
     source.Animate(
-        { width: Size3 + 'px', height: Size3 + 'px', left: ToX + 'px', top: ToY + 'px', fontSize: FS3 + 'px', opacity: 0 },
-        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px', opacity: 1 },
+        { width: Size3 + 'px', height: Size3 + 'px', left: ToX + 'px', top: ToY + 'px', opacity: 0 },
+        { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', opacity: 1 },
         {
             duration: 120,
             easing: 'ease-out',
@@ -925,8 +921,8 @@ function SpawnBlockAnimation(source, callback) {
         function() {
 
             source.Animate(
-                { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px', fontSize: FS2 + 'px' },
-                { width: Size1 + 'px', height: Size1 + 'px', left: From.BX + 'px', top: From.BY + 'px', fontSize: FS1 + 'px' },
+                { width: Size2 + 'px', height: Size2 + 'px', left: (From.BX - SizeAdjust) + 'px', top: (From.BY - SizeAdjust) + 'px' },
+                { width: Size1 + 'px', height: Size1 + 'px', left: From.BX + 'px', top: From.BY + 'px' },
                 {
                     duration: 40,
                     easing: 'ease-in',

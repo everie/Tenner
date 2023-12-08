@@ -1,3 +1,8 @@
+/*
+TENSION - By Hans Elley
+Game code
+ */
+
 (function () {
     Current.High = Defaults.Start;
     Current.Blocks = [];
@@ -1218,4 +1223,3 @@ function GetAllEmptySquares() {
 
     return Arr;
 }
-

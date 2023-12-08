@@ -1,5 +1,5 @@
 /*
-TENSION 2 - By Hans Elley
+TENSION - By Hans Elley
 Helper functions
  */
 

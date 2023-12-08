@@ -1,5 +1,5 @@
 /*
-TENSION 1 - By Hans Elley
+TENSION - By Hans Elley
 Extensions
  */
 

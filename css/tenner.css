@@ -1,9 +1,16 @@
+/*
+TENSION 1 - By Hans Elley
+Main styles
+ */
+
 :root{
     --nav-colour:#1f262b;
     --back-colour:#13181b;
     --main-colour:#93979a;
     --link-colour:#799185;
     --link-disabled:#f14668;
+    --board-frame-colour1:rgba(0, 0, 0, 0.9);
+    --board-frame-colour2:rgba(0, 0, 0, 0.6);
 }
 
 /* BODY */
@@ -30,7 +37,7 @@ body, html {
 .container {
     height:100%;
     margin-top:5rem;
-    padding:.5rem;
+    padding:.8rem;
 }
 
 .navbar {
@@ -40,10 +47,16 @@ body, html {
 
 .navbar, .navbar-menu {
     background-color: var(--nav-colour);
-    min-height: 3.5rem;
+    /*min-height: 3.5rem;*/
+    overflow-y:hidden;
+    padding:0;
 }
 
-.navbar-link:hover, a.navbar-item:hover, .navbar-item.has-dropdown .navbar-link:hover, .navbar-link:hover {
+#menu {
+    height:100%;
+}
+
+.navbar-link:hover, a.navbar-item:hover, .navbar-item.has-dropdown .navbar-link:hover, .navbar-link:hover, a.navbar-item:active, a.navbar-item:focus-within {
     background-color: transparent;
     color:var(--link-colour);
 }
@@ -73,6 +86,28 @@ a, .Clickable, a.navbar-item, .navbar-item, .navbar-link {
     cursor: pointer;
     font-weight: 200;
     color:var(--link-colour);
+}
+
+.navbar-item {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    padding:.7rem 1rem;
+    font-size:110%;
+}
+
+.nav-icon {
+    width:25px;
+    margin-right: .5rem;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-menu .navbar-item {
+    border:0 dashed rgba(255, 255, 255, 0.1);
+    border-top-width: 1px;
 }
 
 .Clickable.disabled {
@@ -116,22 +151,22 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
 }
 
 #GameContainer {
-    background-color:#000;
-    padding:.5rem;
-    border-radius: .5rem;
+    background-color:var(--board-frame-colour1);
+    padding: 8px;
+    border-radius: 8px;
     width:100%;
     height:100%;
     position:relative;
 }
 
 #InnerGame {
-    background-color:#222;
     width:100%;
     height:100%;
 
-    border-radius: .25rem;
+    border-radius: 4px;
     overflow:hidden;
     position:relative;
+    z-index:2;
 }
 
 #InnerGameMessages {
@@ -141,6 +176,18 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     height:calc(100% - 1rem);
     top:.5rem;
     left:.5rem;
+}
+
+#InnerGameBackground {
+    background:linear-gradient(180deg, #000 0%, #222 100%);
+    pointer-events: none;
+    position:absolute;
+    width:calc(100% - 1rem);
+    height:calc(100% - 1rem);
+    top:.5rem;
+    left:.5rem;
+    z-index:1;
+    border-radius: 4px;
 }
 
 #InnerGameOverlay {
@@ -155,6 +202,20 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     display:none;
     justify-content: center;
     align-items: center;
+}
+
+#InnerGameBufferOverlay {
+    pointer-events: none;
+    position:absolute;
+    width:calc(100% - 1rem);
+    height:calc(100% - 1rem);
+    top:.5rem;
+    left:.5rem;
+    background:linear-gradient(180deg, rgba(255, 0, 0, .3) 0%, rgba(0, 0, 0, 0) 30%);
+    opacity:0;
+    transition:all .5s;
+    z-index:1;
+    border-radius: 4px;
 }
 
 .InnerGameOverlayMessage {
@@ -276,8 +337,12 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     flex-direction: row;
     justify-content: space-between;
     font-size:1.2rem;
-    padding:.5rem;
+    padding:8px;
     font-weight: 100;
+    /*background-color:var(--board-frame-colour2);*/
+    /*background:linear-gradient(180deg, var(--board-frame-colour2) 0%, var(--board-frame-colour1) 100%);*/
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
 }
 
 #GameProgressBottom {
@@ -286,8 +351,12 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     flex-direction: row;
     justify-content: space-between;
     font-size:1.2rem;
-    padding:.5rem;
+    padding:8px;
     font-weight: 100;
+    /*background-color:var(--board-frame-colour2);*/
+    /*background:linear-gradient(0deg, var(--board-frame-colour2) 0%, var(--board-frame-colour1) 100%);*/
+    border-radius: 0 0 8px 8px;
+    margin-top: 0;
 }
 
 .ScoreDisplay {
@@ -306,8 +375,139 @@ a:hover, .Clickable:hover, a.navbar-item:hover {
     /*background-color: #f0f;*/
 }
 
-#Points, #Moves, #Options {
+.LifeDisplay {
+    width:0;
+    height:0;
+    opacity:0;
+    font-size:1rem;
+    position:absolute;
+    color:#faa;
+    z-index:10;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    text-shadow: 2px 2px 0 #000;
+    /*background-color: #f0f;*/
+}
+
+#Points, #Moves, #Options, #Lives, #Level {
     font-weight:400;
+}
+
+#BackGround {
+    width:100%;
+    height:100%;
+    position:absolute;
+    /*background-color:#f0f;*/
+    overflow-y:hidden;
+    left:0;
+    top:0;
+}
+
+.background-bar {
+    position:absolute;
+    width:100%;
+    height:50px;
+    left:0;
+    top:0;
+    opacity:0.3;
+}
+
+.inner-background-bar {
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+#BackGroundOverlay {
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+}
+
+#BGOverlayTop {
+    position:absolute;
+    left:0;
+    top:52px;
+    height:25%;
+    width:100%;
+    background:linear-gradient(0deg, rgba(19,24,27, 0) 0%, rgba(19,24,27, 1) 100%);
+}
+
+#BGOverlayBottom {
+    position:absolute;
+    left:0;
+    bottom:0;
+    height:20%;
+    width:100%;
+
+    /*background:linear-gradient(0deg, rgba(31,38,43, 1) 0%, rgba(31,38,43, 0) 100%);*/
+    background:linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.info-title {
+    margin-top:.5rem;
+    font-size:150%;
+    color:var(--link-colour);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.info-block {
+    font-size:95%;
+    margin-bottom:1.5rem;
+    font-weight: 100;
+}
+
+#HighScoreContainer {
+    font-size:110%;
+}
+
+.score-list-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding:1px;
+}
+
+.AutoGame:not(.off), .AutoGame:hover, .AutoGame:active, .AutoGame:visited {
+    color:#0f0;
+}
+
+.AutoGame.off {
+    color:inherit;
+}
+
+
+.radio-label {
+    font-size:110%;
+    display:flex;
+    align-items: center;
+    margin-bottom: .2rem;
+    margin-top: .2rem;
+}
+
+.radio-title {
+    font-size:150%;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+.radio-container {
+    margin-bottom: 1.5rem;
+}
+
+.radio-field {
+    height:1.4rem;
+    width:1.4rem;
+    margin-right:.5rem;
 }
 
 /*

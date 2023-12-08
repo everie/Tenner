@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>TENSION</title>
-    <link rel="icon" type="image/png" href="imgs/Logo_64.png" />
+    <link rel="icon" type="image/png" href="imgs/Tension_64.png" />
     <link href="css/bulma/bulma.min.css" rel="stylesheet">
     <link href="css/tenner.css" rel="stylesheet">
     <link href="css/fonts.css" rel="stylesheet">
@@ -15,9 +15,10 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a href="index.html" class="navbar-item">
-            <img src="imgs/Logo_64.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px; font-size:120%; font-weight:100; text-shadow: 2px 2px #000;"><span style="font-weight: 600;">TEN</span>SION</div>
+        <a href="index.html" class="navbar-item navbar-logo">
+            <img src="imgs/Tension_64.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px; font-size:120%; font-weight:100; text-shadow: 2px 2px #000;"><span style="font-weight: 600;">TEN</span>SION</div>
         </a>
+
 
         <a role="button" class="navbar-burger is-primary game-menu" aria-label="menu" aria-expanded="false" data-target="menu">
             <span aria-hidden="true"></span>
@@ -29,10 +30,34 @@
     <div id="menu" class="navbar-menu">
         <div class="navbar-end">
             <a class="navbar-item" href="score.html">
-                <img src="imgs/icons/star.svg" width="16" style="margin-right:.5rem;"> Scores
+                <span class="nav-icon">
+                    <img alt="Scores" src="imgs/icons/star.svg" width="16">
+                </span>
+                Scores
+            </a>
+            <a class="navbar-item" href="howto.html">
+                <span class="nav-icon">
+                    <img alt="How to play" src="imgs/icons/question.svg" width="12">
+                </span>
+                How to
+            </a>
+            <a class="navbar-item" href="settings.html">
+                <span class="nav-icon">
+                    <img alt="Settings" src="imgs/icons/cog.svg" width="16">
+                </span>
+                Settings
             </a>
             <a class="navbar-item ResetGame">
-                <img src="imgs/icons/undo.svg" width="16" style="margin-right:.5rem;"> Reset
+                <span class="nav-icon">
+                    <img alt="Reset game" src="imgs/icons/undo.svg" width="16">
+                </span>
+                Reset
+            </a>
+            <a class="navbar-item AutoGame off">
+                <span class="nav-icon">
+                    <img alt="AI" src="imgs/icons/play.svg" width="14">
+                </span>
+                AI Player
             </a>
         </div>
     </div>
@@ -60,6 +85,9 @@
         <div class="col-12">
             <div id="Game">
                 <div id="GameContainer">
+                    <div id="InnerGameBackground">
+                        <!-- Game Gradient Background -->
+                    </div>
                     <div id="InnerGame">
                         <!-- GAME -->
                     </div>
@@ -71,6 +99,7 @@
                         <div class="InnerGameOverlayMessage">
                             <div style="font-weight: bold;">THE END</div>
                             <div id="GamePositionContainer">Position: <span id="GamePosition">0</span></div>
+                            <a href="#" id="GameLink" class="Clickable">Show stats</a>
                             <div class="Clickable ResetGame">Reset</div>
                         </div>
                     </div>

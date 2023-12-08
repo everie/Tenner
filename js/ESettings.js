@@ -22,6 +22,7 @@ const Current = {
     FontSize: 0,
     ScoreSize: 0,
     Auto: false,
+    AutoTimer: null,
     Undo: {
         Moves: 0,
         Count: 0,
@@ -45,6 +46,51 @@ const Current = {
 
             return Obj;
         })
+    },
+    Settings: {
+        NumberFormat: 'DOTS', // ['DOTS', 'COMMAS']
+        DateFormat: 'DDMMYYYY', // ['DDMMYYYY', 'MMDDYYYY', 'YYYYMMDD']
+        DateSeparator: 'DASH', // ['dash', 'slash', 'dot'],
+        Options: {
+            NumberFormat: [
+                {
+                    Text: '1.234,5',
+                    Value: 'DOTS'
+                },
+                {
+                    Text: '1,234.5',
+                    Value: 'COMMAS'
+                }
+            ],
+            DateFormat: [
+                {
+                    Text: 'Day, Month, Year',
+                    Value: 'DDMMYYYY'
+                },
+                {
+                    Text: 'Month, Day, Year',
+                    Value: 'MMDDYYYY'
+                },
+                {
+                    Text: 'Year, Month, Day',
+                    Value: 'YYYYMMDD'
+                }
+            ],
+            DateSeparator: [
+                {
+                    Text: 'Dash (-)',
+                    Value: 'DASH'
+                },
+                {
+                    Text: 'Slash (/)',
+                    Value: 'SLASH'
+                },
+                {
+                    Text: 'Dot (.)',
+                    Value: 'DOT'
+                }
+            ]
+        }
     },
     Start: null
 };
@@ -259,7 +305,10 @@ function SaveLastStateOnEnd() {
 
         localStorage.setItem(Defaults.LocalHighScore, JSON.stringify(Scores));
 
-        return Top.findIndex(a => a.ID === End.ID) + 1;
+        return {
+            ID: End.ID,
+            Position: Top.findIndex(a => a.ID === End.ID) + 1
+        };
     } else {
         let Obj = {
             Top: [End]
@@ -267,6 +316,48 @@ function SaveLastStateOnEnd() {
 
         localStorage.setItem(Defaults.LocalHighScore, JSON.stringify(Obj));
 
-        return 1;
+        return {
+            ID: End.ID,
+            Position: 1
+        };
     }
+}
+
+function SetSetting(Type, Value) {
+    switch (Type) {
+        case 'NUMBER':
+            Current.Settings.NumberFormat = Value;
+            break;
+
+        case 'DATE':
+            Current.Settings.DateFormat = Value;
+            break;
+
+        case 'SEPARATOR':
+            Current.Settings.DateSeparator = Value;
+            break;
+    }
+
+    localStorage.setItem(Defaults.LocalSettings, JSON.stringify(Current.Settings));
+}
+
+function GetSettings() {
+    let Settings = GetLocalItem(Defaults.LocalSettings);
+
+    if (Settings !== undefined && Settings !== null)
+        Current.Settings = Settings;
+}
+
+function GetSetting(Key) {
+    return Current.Settings[Key];
+}
+
+function GetDateSeparator(Value) {
+    switch (Value) {
+        case 'DASH': return '-';
+        case 'SLASH': return '/';
+        case 'DOT': return '.';
+    }
+
+    return '';
 }

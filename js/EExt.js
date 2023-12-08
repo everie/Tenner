@@ -1,3 +1,8 @@
+/*
+TENSION 1 - By Hans Elley
+Extensions
+ */
+
 HTMLElement.prototype.Animate = function(From, To, Settings, Callback) {
     let e = this;
 
@@ -10,7 +15,8 @@ HTMLElement.prototype.Animate = function(From, To, Settings, Callback) {
         anim.commitStyles();
         anim.cancel();
 
-        Callback();
+        if (Callback)
+            Callback();
     }
 }
 
@@ -31,12 +37,39 @@ Array.prototype.EachAsync = async function(Delay, Handler, Callback) {
     Callback();
 }
 
+Array.prototype.First = function() {
+    if (this.length < 1)
+        return null;
+
+    return this[0];
+}
+
+Array.prototype.Last = function() {
+    if (this.length < 1)
+        return null;
+
+    return this[this.length - 1];
+}
+
+HTMLElement.prototype.Style = function(Style) {
+    Object.keys(Style).forEach(a => {
+        this['style'][a] = Style[a];
+    });
+
+    return this;
+}
+
+
 const Emit = function(Name) {
     window.dispatchEvent(new Event(Name));
 }
 
 const Listen = function(Name, Event) {
     window.addEventListener(Name, Event);
+}
+
+const Unlisten = function(Name, Event) {
+    window.removeEventListener(Name, Event);
 }
 
 const Events = {};

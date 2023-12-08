@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>TENSION</title>
+  <link rel="icon" type="image/png" href="imgs/Tension_64.png" />
+  <link href="css/bulma/bulma.min.css" rel="stylesheet">
+  <link href="css/tenner.min.css" rel="stylesheet">
+  <link href="css/fonts.min.css" rel="stylesheet">
+
+  <script src="js/async.min.js"></script>
+
+  <style>
+    .container {
+      margin-top:50px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a href="index.html" class="navbar-item navbar-logo">
+      <img src="imgs/Tension_64.png" style="height:40px;" alt="logo" /> <div style="margin-left:5px; font-size:120%; font-weight:100; text-shadow: 2px 2px #000;"><span style="font-weight: 600;">TEN</span>SION</div>
+    </a>
+
+
+    <a role="button" class="navbar-burger is-primary game-menu" aria-label="menu" aria-expanded="false" data-target="menu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="menu" class="navbar-menu">
+    <div class="navbar-end">
+      <a class="navbar-item" href="score.html">
+                <span class="nav-icon">
+                    <img alt="Scores" src="imgs/icons/star.svg" width="16">
+                </span>
+        Scores
+      </a>
+      <a class="navbar-item" href="howto.html">
+                <span class="nav-icon">
+                    <img alt="How to play" src="imgs/icons/question.svg" width="12">
+                </span>
+        How to
+      </a>
+      <a class="navbar-item" href="settings.html">
+                <span class="nav-icon">
+                    <img alt="Settings" src="imgs/icons/cog.svg" width="16">
+                </span>
+        Settings
+      </a>
+      <a class="navbar-item" href="index.html">
+                <span class="nav-icon">
+                    <img alt="Settings" src="imgs/icons/undo.svg" width="16">
+                </span>
+        Go back
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div>
+    <div class="info-title">How do I win?</div>
+    <div class="info-block">
+      You don't. You just do a little better each time.<br />
+    </div>
+
+    <div class="info-title">How do I start?</div>
+    <div class="info-block">
+      See the coloured blocks with numbers in them? The number represents their value and the colour just makes them easier to identify.<br />
+      Find a block that has other blocks of same value next to it (left, right, above or under) and tap it! Now you will highlight the block and all blocks that are connected to it. (Note: If you tap a block with no valid neighbours, nothing will happen)<br />
+      Tap any of the highlighted blocks to merge them into a block of higher value at the location where you tapped.<br />
+      After each turn the board will attempt to scroll to a deeper level.<br />
+    </div>
+
+    <div class="info-title">Blocks and their value</div>
+    <div class="info-block">
+      So, if you merge a group of 1-blocks they will turn into a 2-block. If you merge a group of 2-blocks, they will turn into a 3-block. You get the idea. This continues all the way up to 10.<br />
+    </div>
+
+    <div class="info-title"><img src="imgs/icons/star.svg" width="16" style="margin-right:.5rem;">Points</div>
+    <div class="info-block">
+      By now you're probably wondering why any of this is important. Well, you want points, don't you?<br />
+      The higher the value of the block, the more points you will earn when merging it. But this is only half of the equation. Bigger groups of blocks merged at the same time will result in bigger rewards.<br />
+      Also, the deeper the level the more points will be rewarded.<br />
+    </div>
+
+    <div class="info-title">Bonus blocks</div>
+    <div class="info-block">
+      After each merge there is a chance that a block will be turned into a bonus block. The more blocks you merge at the same time, the bigger the chance and bonus will be.<br />
+      (Note: Only blocks in groups can become bonus blocks, and a block that already has a bonus can not receive more bonuses)<br />
+      To get the bonus you will have to tap the bonus-block when merging the group. This will result in the entire points being multiplied by the bonus-amount on your block. (2x, 3x or 4x)<br />
+    </div>
+
+    <div class="info-title"><img src="imgs/icons/stair.svg" width="16" style="margin-right:.5rem;">Levels</div>
+    <div class="info-block">
+      To get new blocks, you will have to travel to deeper levels. A new level can be reached each time you have cleared a row.<br />
+      If there is an empty row, the board will scroll to fill out this row. If the board cannot scroll after a turn (no empty rows), you will see the background turn red. You now have 1 turn to clear a row before you'll be penalised. The penalty is losing lives equal to the value of the blocks in the top row at the time.<br />
+      If you clear 2 or more rows in one turn the board will scroll to the 2nd highest row, giving you some time to prepare your next move.<br />
+    </div>
+
+    <div class="info-title"><img src="imgs/icons/heart.svg" width="16" style="margin-right:.5rem;">Lives</div>
+    <div class="info-block">
+      You start out with a hundred lives. When you reach 0 or under, you will lose the game. As mentioned above, you lose lives whenever you are unable to clear a row, while the background is red. While 100 lives feels like a lot when you start out, you will see the crumble away quickly as you travel deeper.<br />
+    </div>
+
+    <div class="info-title"><img src="imgs/icons/bulb.svg" width="14" style="margin-right:.5rem;">Options</div>
+    <div class="info-block">
+      Options is the number of available block-groups.<br />
+      If you have no options once a turn is done, the board will scroll automatically until an option becomes available. For each scroll, you will be penalised by blocks scrolling out of the board.<br />
+    </div>
+
+    <div class="info-title"><img src="imgs/icons/undo.svg" width="16" style="margin-right:.5rem;">Undo</div>
+    <div class="info-block">
+      You start out with 3 undos. If you use one, a new one will be added after 30 turns. You can never have more than 3 at a time.<br />
+      You can use this to undo a turn and go back one step in history.<br />
+    </div>
+
+    <div class="info-title">Have fun</div>
+    <div class="info-block">
+      That was quite a mouthful. Don't worry, most of it will happen automatically, you just need to merge blocks and have fun.
+    </div>
+  </div>
+</div>
+<script src="js/EBulma.min.js"></script>
+<script src="js/EExt.min.js"></script>
+<script src="js/EHelpers.min.js"></script>
+</body>
+</html>

@@ -1,1 +1,4 @@
 /.idea
+/keys
+/js/*.min.js
+/css/*.min.css

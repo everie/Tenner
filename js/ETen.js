@@ -2,9 +2,11 @@
     Current.High = Defaults.Start;
     Current.Blocks = [];
 
+    GetSettings();
     ReSize();
     SetUpReset();
     SetUpUndo();
+    SetUpAutoButton();
 
     let LastBlocks = LoadLastState();
 
@@ -17,11 +19,11 @@
 
     UpdateScore();
     Emit('InitDone');
-})();
 
-window.onresize = function() {
-    ReSize();
-};
+    Listen('ReSize', function() {
+        ReSize();
+    });
+})();
 
 function SetUpReset() {
     let Resets = document.querySelectorAll('.ResetGame');
@@ -57,35 +59,87 @@ function ResetGame() {
     SetUpUndo();
 }
 
-function SetUpAutoPlay() {
-    let EventHandler = () => {
-        if (Current.Auto) {
-            let Groups = CalculateOptions();
+function SetUpAutoPlay(On) {
+    if (On) {
+        Listen('MoveDone', AutoPlayEvent);
+        Listen('InitDone', AutoPlayEvent);
+    } else {
+        Unlisten('MoveDone', AutoPlayEvent);
+        Unlisten('InitDone', AutoPlayEvent);
+    }
+}
 
-            if (Groups.length > 0) {
-                let G = Random(0, Groups.length - 1);
-                let B = Random(0, Groups[G].length - 1);
+function AutoPlayEvent() {
+    if (Current.Auto) {
+        let Groups = CalculateBlockGroups().Groups;
 
-                let Block = Groups[G][B];
+        if (Current.AutoTimer !== null)
+            clearTimeout(Current.AutoTimer);
 
-                Block.Self.click();
+        Current.AutoTimer = null;
 
-                setTimeout(function() {
+        ClearAllSelected();
+
+        if (Groups.length > 0) {
+            let G = Random(0, Groups.length - 1);
+            let B = Random(0, Groups[G].length - 1);
+
+            // console.log('row', Groups.length - 1, Groups, 'selected', G);
+            // console.log('blo', Groups[G].length - 1, Groups[G], 'selected', B);
+
+            let Block = Groups[G][B];
+            Block.Self.click();
+
+            Current.AutoTimer = setTimeout(function() {
+                if (Current.Auto)
                     Block.Self.click();
-                }, 400);
-            }
+            }, 400);
         }
-    };
+    }
+}
 
-    Listen('MoveDone', EventHandler);
-    Listen('InitDone', EventHandler);
+function SetUpAutoButton() {
+    let Button = document.querySelector('.AutoGame');
+    let OffClass = 'off';
+    InitAutoPlay(false);
+    Button.classList.add(OffClass);
+
+    Button.onclick = function() {
+        if (Button.classList.contains(OffClass)) {
+            Button.classList.remove(OffClass);
+            // TURN ON
+            InitAutoPlay(true);
+        } else {
+            Button.classList.add(OffClass);
+            // TURN OFF
+            InitAutoPlay(false);
+        }
+    }
 }
 
 function InitAutoPlay(Start = true) {
+    let Button = document.querySelector('.AutoGame');
+    let OffClass = 'off';
+
     Current.Auto = Start;
 
-    SetUpAutoPlay();
-    Emit('MoveDone');
+    if (!Start) {
+        SetUpAutoPlay(false);
+        Button.classList.add(OffClass);
+    } else {
+        SetUpAutoPlay(true);
+        Emit('MoveDone');
+    }
+}
+
+function ClearAllSelected() {
+    if (Current.HasSelect()) {
+        Current.Selected.forEach(a => {
+            a.Self.classList.remove('Selected');
+        });
+
+        Current.Selected = [];
+    }
 }
 
 function SetUpUndo() {
@@ -401,13 +455,17 @@ function RemoveAllFriends(element, callback) {
                 FillGapsSynced(Stacks, function() {
                     FillEmptySquares(function() {
 
-                        let Groups = CalculateOptions();
-                        SetBonusBlock(Groups, SelectedBlocks);
+                        let Opt = CalculateBlockGroups();
+                        let Options = Opt.Options;
+
+                        if (Options > 0)
+                            SetBonusBlock(Opt.Groups, SelectedBlocks);
+
+                        UpdateOptions(Options);
                         StoreCurrentState();
 
-                        //console.log('all dropped.');
-
-
+                        if (Options < 1)
+                            EndGame(true);
 
                         callback();
                     });
@@ -504,6 +562,13 @@ function UpdateScore(Score = 0, Animate = false) {
     Moves.innerHTML = FormatNumber(Current.Move);
 }
 
+function UpdateOptions(Options) {
+    let Div = document.querySelector('#Options');
+    Current.Options = Options;
+
+    Div.innerHTML = FormatNumber(Options);
+}
+
 function CalculateOptions(Update = true) {
     let Seen = [];
     let Groups = [];
@@ -534,24 +599,56 @@ function CalculateOptions(Update = true) {
     return Groups;
 }
 
+function CalculateBlockGroups() {
+    let Seen = [];
+    let Groups = [];
+    //let Options = 0;
+
+    Current.Blocks.forEach(function(Block) {
+        if (Seen.filter(a => a.ID === Block.dataset.id).length < 1) {
+            let Friends = [];
+            TraverseFriends(Block, Friends);
+
+            if (Friends.length > 1) {
+                //Options++;
+                Seen.push(...Friends);
+                Groups.push(Friends);
+            }
+        }
+    });
+
+    return {
+        Options: Groups.length,
+        Groups: Groups
+    }
+}
+
 function EndGame(Update) {
     let End = document.querySelector('#InnerGameOverlay');
     let GamePos = document.querySelector('#GamePosition');
+    let GameLink = document.querySelector('#GameLink');
     let GamePosCont = document.querySelector('#GamePositionContainer');
     End.style.display = 'flex';
+    InitAutoPlay(false);
 
     if (Update) {
-        let Position = SaveLastStateOnEnd();
+        let LastState = SaveLastStateOnEnd();
 
-        if (Position < 1) {
+        if (LastState.Position < 1) {
             GamePos.innerHTML = "None";
+            GameLink.style.display = 'none';
         } else {
-            GamePos.innerHTML = Position;
+            GamePos.innerHTML = LastState.Position;
+
+            GameLink.href = 'score.html?id=' + LastState.ID;
+            GameLink.style.display = 'block';
         }
 
         GamePosCont.style.display = 'block';
+
     } else {
         GamePosCont.style.display = 'none';
+        GameLink.style.display = 'none';
     }
 }
 

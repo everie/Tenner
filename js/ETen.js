@@ -579,7 +579,7 @@ function CalculateOptions(Update = true) {
     let Groups = [];
     let Options = 0;
 
-    Current.Blocks.forEach(function(Block) {
+    Current.BlocksPlayable().forEach(function(Block) {
         if (Seen.filter(a => a.ID === Block.dataset.id).length < 1) {
             let Friends = [];
             TraverseFriends(Block, Friends);
@@ -609,7 +609,7 @@ function CalculateBlockGroups() {
     let Groups = [];
     //let Options = 0;
 
-    Current.Blocks.forEach(function(Block) {
+    Current.BlocksPlayable().forEach(function(Block) {
         if (Seen.filter(a => a.ID === Block.dataset.id).length < 1) {
             let Friends = [];
             TraverseFriends(Block, Friends);
